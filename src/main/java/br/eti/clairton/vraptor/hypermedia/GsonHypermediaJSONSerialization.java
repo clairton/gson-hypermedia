@@ -1,4 +1,4 @@
-package br.eti.clairton.vraptor.gson.hypermedia;
+package br.eti.clairton.vraptor.hypermedia;
 
 import java.io.IOException;
 
@@ -14,12 +14,20 @@ import br.com.caelum.vraptor.serialization.gson.GsonJSONSerialization;
 import br.com.caelum.vraptor.serialization.gson.GsonSerializerBuilder;
 import br.com.caelum.vraptor.view.ResultException;
 
+/**
+ * Implementação de {@link HypermediaJsonSerialization}.<br/>
+ * 
+ * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
+ */
 @Specializes
-public class GsonHypermediaJSONSerialization extends GsonJSONSerialization {
+public class GsonHypermediaJSONSerialization extends GsonJSONSerialization
+		implements HypermediaJsonSerialization {
 
 	private final GsonSerializerBuilder builder;
 	private final ServletResponse response;
 	private final TypeNameExtractor extractor;
+	private HypermediableController controller;
+	private String operation;
 
 	/**
 	 * @deprecated CDI eyes only
@@ -42,10 +50,26 @@ public class GsonHypermediaJSONSerialization extends GsonJSONSerialization {
 	protected SerializerBuilder getSerializer() {
 		try {
 			return new GsonHypermediaSerializer(builder, response.getWriter(),
-					extractor);
-		} catch (IOException e) {
+					extractor, controller, operation);
+		} catch (final IOException e) {
 			throw new ResultException("Unable to serialize data", e);
 		}
 	}
 
+	@Override
+	public HypermediaSerialization self(final String operation) {
+		this.operation = operation;
+		return this;
+	}
+
+	@Override
+	public HypermediaSerialization links(
+			final HypermediableController controller) {
+		this.controller = controller;
+		if (operation == null && controller != null
+				&& controller.getClass().getEnclosingMethod() != null) {
+			operation = controller.getClass().getEnclosingMethod().getName();
+		}
+		return this;
+	}
 }
