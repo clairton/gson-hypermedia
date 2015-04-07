@@ -1,7 +1,7 @@
 # vraptor-hypermedia
-Possibilidade de usar Hypermedia em uma aplicação REST construido com vraptor
+Possibilidade de usar Hypermedia em uma aplicação REST construida com o VRaptor.
 
-O controller que irá fornercer o recurso precisa implementar HypermediableController
+O controller que irá fornercer o recurso precisa implementar HypermediableController,
 por exemplo:
 ```java
 @Controller
@@ -19,7 +19,8 @@ public class PessoaController implements HypermediableController {
 	}
 }
 ```
-Para poder serilizar a Entidade precisará implementar Hypermediable, como no exemplo:
+Para poder serializar uma Entidade, a mesma precisará implementar Hypermediable, como no exemplo:
+Obs: Precisa ser pensando em um forma melhor, pois desta, o model conhece o controller!
 ```java
 public class Pessoa implements Hypermediable {
 	private Integer id;
@@ -68,7 +69,7 @@ O exemplo acima irá retornar:
 }
 ```
 
-
+Para usar com o maven, adicione os repositórios:
 ```xml
 <repository>
 	<id>mvn-repo-releases</id>
