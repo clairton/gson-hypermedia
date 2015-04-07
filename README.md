@@ -1,5 +1,5 @@
 # vraptor-hypermedia
-Possibilidade de usar Hypermedia em uma aplicação REST construido com vraptor
+Possibilidade de usar Hypermedia em uma aplicação REST construida com o VRaptor.
 
 O controller que irá fornercer o recurso precisa implementar HypermediableController
 por exemplo:
