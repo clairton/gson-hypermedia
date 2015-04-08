@@ -20,56 +20,53 @@ import br.com.caelum.vraptor.view.ResultException;
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 @Specializes
-public class GsonHypermediaJSONSerialization extends GsonJSONSerialization
-		implements HypermediaJsonSerialization {
+public class GsonHypermediaJSONSerialization extends GsonJSONSerialization implements HypermediaJsonSerialization {
 
 	private final GsonSerializerBuilder builder;
 	private final ServletResponse response;
 	private final TypeNameExtractor extractor;
-	private HypermediableController controller;
+	private final HypermediableRole navigator;
 	private String operation;
+	private String resource;
 
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected GsonHypermediaJSONSerialization() {
-		this(null, null, null, null);
+		this(null, null, null, null, null);
 	}
 
 	@Inject
 	public GsonHypermediaJSONSerialization(final HttpServletResponse response,
 			final TypeNameExtractor extractor,
+			final HypermediableRole navigator,
 			final GsonSerializerBuilder builder, final Environment environment) {
 		super(response, extractor, builder, environment);
 		this.builder = builder;
 		this.response = response;
 		this.extractor = extractor;
+		this.navigator = navigator;
 	}
 
 	@Override
 	protected SerializerBuilder getSerializer() {
 		try {
 			return new GsonHypermediaSerializer(builder, response.getWriter(),
-					extractor, controller, operation);
+					extractor, navigator, resource, operation);
 		} catch (final IOException e) {
 			throw new ResultException("Unable to serialize data", e);
 		}
 	}
 
 	@Override
-	public HypermediaSerialization self(final String operation) {
-		this.operation = operation;
+	public HypermediaSerialization resource(final String resource) {
+		this.resource = resource;
 		return this;
 	}
 
 	@Override
-	public HypermediaSerialization links(
-			final HypermediableController controller) {
-		this.controller = controller;
-		if (operation == null && controller != null
-				&& controller.getClass().getEnclosingMethod() != null) {
-			operation = controller.getClass().getEnclosingMethod().getName();
-		}
+	public HypermediaSerialization operation(final String operation) {
+		this.operation = operation;
 		return this;
 	}
 }

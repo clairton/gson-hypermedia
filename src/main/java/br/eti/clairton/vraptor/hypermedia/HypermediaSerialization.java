@@ -1,5 +1,7 @@
 package br.eti.clairton.vraptor.hypermedia;
 
+import java.lang.reflect.Method;
+
 import br.com.caelum.vraptor.serialization.Serialization;
 
 /**
@@ -8,22 +10,33 @@ import br.com.caelum.vraptor.serialization.Serialization;
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 public interface HypermediaSerialization extends Serialization {
-
 	/**
 	 * Seta o nome do método atual.
 	 * 
-	 * @param operation
-	 *            nome do método atual.
+	 * @param method
+	 *            instancia método atual.
 	 * @return self
 	 */
-	HypermediaSerialization self(String operation);
+	default HypermediaSerialization operation(final Method method) {
+		operation(method.getName());
+		return this;
+	}
 
 	/**
-	 * Seta o controller para posteriormente recuperar os links.
+	 * Seta o nome da operação atual.
 	 * 
-	 * @param controller
-	 *            controller atual
+	 * @param operation
+	 *            nome da operação atual.
 	 * @return self
 	 */
-	HypermediaSerialization links(HypermediableController controller);
+	HypermediaSerialization operation(String operation);
+
+	/**
+	 * Seta o nome do recurso atual.
+	 * 
+	 * @param operation
+	 *            nome do recurso atual.
+	 * @return self
+	 */
+	HypermediaSerialization resource(String operation);
 }

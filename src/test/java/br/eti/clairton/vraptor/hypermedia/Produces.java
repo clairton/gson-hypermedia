@@ -25,6 +25,7 @@ import br.com.caelum.vraptor.http.VRaptorResponse;
 import br.com.caelum.vraptor.util.test.MockHttpServletResponse;
 
 @Priority(Interceptor.Priority.LIBRARY_BEFORE + 1)
+@RequestScoped
 public class Produces {
 	public static HttpServletResponse response;
 

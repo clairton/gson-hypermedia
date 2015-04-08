@@ -4,9 +4,7 @@ import static br.eti.clairton.vraptor.hypermedia.HypermediaJsonSerialization.jso
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -19,7 +17,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.serialization.gson.WithRoot;
 
 @Controller
-public class PessoaController implements HypermediableController {
+public class PessoaController {
 
 	private final Result result;
 
@@ -41,21 +39,20 @@ public class PessoaController implements HypermediableController {
 	 */
 	@Get("pessoas")
 	public void index() {
-		result.use(jsonHypermedia()).links(this).from(pessoas, "pessoas")
-				.serialize();
+		result.use(jsonHypermedia()).from(pessoas, "pessoas").serialize();
 	}
 
 	@Get("pessoas/{id}")
 	public void show(final Integer id) {
 		final Pessoa pessoa = pessoas.get(id);
-		result.use(jsonHypermedia()).links(this).from(pessoa).serialize();
+		result.use(jsonHypermedia()).from(pessoa).serialize();
 	}
 
 	@Put("pessoas/{id}")
 	@Consumes(value = "application/json", options = WithRoot.class)
 	public void update(final Integer id, final Pessoa pessoa) {
 		pessoas.put(id, pessoa);
-		result.use(jsonHypermedia()).links(this).from(pessoa).serialize();
+		result.use(jsonHypermedia()).from(pessoa).serialize();
 	}
 
 	@Post("pessoas")
@@ -64,16 +61,6 @@ public class PessoaController implements HypermediableController {
 		final Integer id = Long.valueOf(new Date().getTime()).intValue();
 		pessoa.id = id;
 		pessoas.put(id, pessoa);
-		result.use(jsonHypermedia()).links(this).from(pessoa).serialize();
-	}
-
-	@Override
-	public Set<Link> links(final String operation) {
-		final Set<Link> links = new HashSet<>();
-		if ("show".equals(operation)) {
-			//links.add(new Link("/pessoas/1", "remove", "Remover", "DELETE", "application/json"));
-			links.add(new Link("/pessoas/1", "update", "Salvar", "PUT", "application/json"));
-		}
-		return links;
+		result.use(jsonHypermedia()).from(pessoa).serialize();
 	}
 }

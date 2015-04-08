@@ -7,15 +7,16 @@ import java.util.Set;
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public interface HypermediableController {
+public interface HypermediableRole {
 
 	/**
 	 * Deve retornar os links possíveis para navegação.<br/>
-	 * Mediante a operação que é passada como parametro deve recuperar os links.
+	 * Mediante o recurso e a operação passadas como parametros deve recuperar
+	 * os links.
 	 * 
 	 * @param operation
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	Set<Link> links(final String operation);
+	Set<Link> from(final String resource, final String operation);
 }
