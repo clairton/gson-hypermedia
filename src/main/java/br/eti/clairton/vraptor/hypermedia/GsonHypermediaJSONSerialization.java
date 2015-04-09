@@ -24,7 +24,7 @@ public class GsonHypermediaJSONSerialization extends GsonJSONSerialization {
 	private final GsonSerializerBuilder builder;
 	private final ServletResponse response;
 	private final TypeNameExtractor extractor;
-	private final HypermediableRole navigator;
+	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
 
@@ -38,7 +38,7 @@ public class GsonHypermediaJSONSerialization extends GsonJSONSerialization {
 	@Inject
 	public GsonHypermediaJSONSerialization(final HttpServletResponse response,
 			final TypeNameExtractor extractor,
-			final HypermediableRole navigator,
+			final HypermediableRule navigator,
 			final GsonSerializerBuilder builder, final Environment environment,
 			@Resource final String resource, @Operation final String operation) {
 		super(response, extractor, builder, environment);

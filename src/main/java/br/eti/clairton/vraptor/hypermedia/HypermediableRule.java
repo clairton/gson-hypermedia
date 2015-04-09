@@ -3,11 +3,13 @@ package br.eti.clairton.vraptor.hypermedia;
 import java.util.Set;
 
 /**
- * Contrato para o controller possui hipermidia.
+ * Serviço que deve retornar os links possíveis.<br/>
+ * Mediante a posição atual ele deverá retornar quais os possíveis<br/>
+ * caminhos poderão ser seguidos.
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public interface HypermediableRole {
+public interface HypermediableRule {
 
 	/**
 	 * Deve retornar os links possíveis para navegação.<br/>

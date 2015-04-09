@@ -15,7 +15,7 @@ import br.com.caelum.vraptor.serialization.gson.GsonSerializerBuilder;
 /**
  * Implementação de {@link HypermediaSerializerBuilder}.<br/>
  * Serializa com o {@link GsonSerializer} e posteriormente<br/>
- * adiciona os links conforme a instancia de {@link HypermediableRole}
+ * adiciona os links conforme a instancia de {@link HypermediableRule}
  * especificada
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
@@ -23,7 +23,7 @@ import br.com.caelum.vraptor.serialization.gson.GsonSerializerBuilder;
  */
 public class GsonHypermediaSerializer extends GsonSerializer implements
 		HypermediaSerializerBuilder {
-	private final HypermediableRole navigator;
+	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
 
@@ -31,7 +31,7 @@ public class GsonHypermediaSerializer extends GsonSerializer implements
 
 	public GsonHypermediaSerializer(final GsonSerializerBuilder builder,
 			final Writer writer, final TypeNameExtractor extractor,
-			final HypermediableRole navigator, final String resource,
+			final HypermediableRule navigator, final String resource,
 			final String operation) {
 		super(builder, writer, extractor);
 		this.operation = operation;

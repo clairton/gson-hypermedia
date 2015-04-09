@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.enterprise.context.Dependent;
 
 @Dependent
-public class HypermediableRoleStub implements HypermediableRole {
+public class HypermediableRuleStub implements HypermediableRule {
 
 	@Override
 	public Set<Link> from(String resource, String operation) {
