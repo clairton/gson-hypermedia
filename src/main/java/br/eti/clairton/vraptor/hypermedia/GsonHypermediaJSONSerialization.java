@@ -20,31 +20,34 @@ import br.com.caelum.vraptor.view.ResultException;
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 @Specializes
-public class GsonHypermediaJSONSerialization extends GsonJSONSerialization implements HypermediaJsonSerialization {
+public class GsonHypermediaJSONSerialization extends GsonJSONSerialization {
 	private final GsonSerializerBuilder builder;
 	private final ServletResponse response;
 	private final TypeNameExtractor extractor;
 	private final HypermediableRole navigator;
-	private String operation;
-	private String resource;
+	private final String operation;
+	private final String resource;
 
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected GsonHypermediaJSONSerialization() {
-		this(null, null, null, null, null);
+		this(null, null, null, null, null, null, null);
 	}
 
 	@Inject
 	public GsonHypermediaJSONSerialization(final HttpServletResponse response,
 			final TypeNameExtractor extractor,
 			final HypermediableRole navigator,
-			final GsonSerializerBuilder builder, final Environment environment) {
+			final GsonSerializerBuilder builder, final Environment environment,
+			@Resource final String resource, @Operation final String operation) {
 		super(response, extractor, builder, environment);
 		this.builder = builder;
 		this.response = response;
 		this.extractor = extractor;
 		this.navigator = navigator;
+		this.operation = operation;
+		this.resource = resource;
 	}
 
 	@Override
@@ -55,17 +58,5 @@ public class GsonHypermediaJSONSerialization extends GsonJSONSerialization imple
 		} catch (final IOException e) {
 			throw new ResultException("Unable to serialize data", e);
 		}
-	}
-
-	@Override
-	public HypermediaSerialization resource(final String resource) {
-		this.resource = resource;
-		return this;
-	}
-
-	@Override
-	public HypermediaSerialization operation(final String operation) {
-		this.operation = operation;
-		return this;
 	}
 }

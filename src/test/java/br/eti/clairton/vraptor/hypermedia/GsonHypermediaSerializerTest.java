@@ -12,18 +12,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import br.com.caelum.vraptor.serialization.JSONSerialization;
 import br.com.caelum.vraptor.serialization.Serializer;
 
 @RunWith(CdiTestRunner.class)
 public class GsonHypermediaSerializerTest {
 	private Serializer serializer;
-	private @Inject HypermediaJsonSerialization serialization;
+	private @Inject JSONSerialization serialization;
+	final String links = "[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]";
 
 	@Before
 	public void init() {
 		Pessoa object = new Pessoa();
-		serializer = serialization.resource("pessoa").operation("create")
-				.from(object);
+		serializer = serialization.from(object);
 	}
 
 	@Test
@@ -35,18 +36,17 @@ public class GsonHypermediaSerializerTest {
 	public void testSerialize() {
 		serializer.serialize();
 		final String json = Produces.response.toString();
-		final String expected = "{\"pessoa\":{\"id\":1,\"nome\":\"Maria\",\"links\":[]}}";
+		final String expected = "{\"pessoa\":{\"id\":1,\"nome\":\"Maria\",\"links\":"+links+"}}";
 		assertEquals(expected, json);
 	}
 
 	@Test
 	public void testSerializeCollection() {
 		List<Pessoa> object = Arrays.asList(new Pessoa());
-		serializer = serialization.resource("pessoa").operation("create")
-				.from(object);
+		serializer = serialization.from(object);
 		serializer.serialize();
 		final String json = Produces.response.toString();
-		final String expected = "{\"links\":[],\"list\":[{\"id\":1,\"nome\":\"Maria\",\"links\":[]}]}";
+		final String expected = "{\"links\":"+links+",\"list\":[{\"id\":1,\"nome\":\"Maria\",\"links\":[]}]}";
 		assertEquals(expected, json);
 	}
 }

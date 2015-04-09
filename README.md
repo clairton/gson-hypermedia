@@ -1,25 +1,22 @@
 # vraptor-hypermedia
 Possibilidade de usar Hypermedia em uma aplicação REST construida com o VRaptor.
 
-O controller que irá fornercer o recurso precisa implementar HypermediableController,
-por exemplo:
+O será necessário implementar um serviço reponsável por definir a navegação, por exemplo:
 ```java
-@Controller
-public class PessoaController implements HypermediableController {
-    ...
+@ApplicationScoped
+public class HypermediableRoleStub implements HypermediableRole {
+
 	@Override
-	public Set<Link> links(final String operation) {
+	public Set<Link> from(String resource, String operation) {
 		final Set<Link> links = new HashSet<>();
-		if ("show".equals(operation)) {
-			links.add(new Link("/pessoas/1", "update", "Salvar", "PUT", "application/json"));
-			//alguma outra lógica obuscura para recuperar os links que o usuário tem acesso
-		}else{
-			return links;
-		}
+		//alguma logica para retornar os links
+		return links;
 	}
+
 }
 ```
-Para poder serializar uma Entidade, a mesma precisará implementar Hypermediable, como no exemplo:
+Para poder serializar uma Entidade com hypermedia, a mesma precisará implementar Hypermediable,
+como no exemplo:
 Obs: Precisa ser pensando em um forma melhor, pois desta, o model conhece o controller!
 ```java
 public class Pessoa implements Hypermediable {
@@ -35,22 +32,17 @@ public class Pessoa implements Hypermediable {
 	}
 }
 ```
-E na hora de serializar no result use o tipo jsonHypermedia, passando o método atual do controller e a sua instância:
+E na hora de serializar no result use o tipo Results.json(), passando o método atual do controller e a sua instância:
 
 ```java
-import static br.eti.clairton.vraptor.hypermedia.HypermediaJsonSerialization.jsonHypermedia;
-...
 private @Inject Result result;
 ....
 result
-	.use(jsonHypermedia())//serializer customizado
-	.self("show")//seta o método atual
-	.links(controller)//a instancia do controller que irá devolver a navegação
+	.use(Resuls.json())
 	.from(new Pessoa())
-	.recursive()//de forma recursiva para seriliazer o set chamado links
 	.serialize();
 ```
-O exemplo acima irá retornar:
+O exemplo acima irá retornar algo parecido com:
 ```javascript
 {  
    "pessoa":{  

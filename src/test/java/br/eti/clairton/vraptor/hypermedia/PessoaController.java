@@ -1,7 +1,5 @@
 package br.eti.clairton.vraptor.hypermedia;
 
-import static br.eti.clairton.vraptor.hypermedia.HypermediaJsonSerialization.jsonHypermedia;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +13,19 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.serialization.gson.WithRoot;
+import br.com.caelum.vraptor.view.Results;
 
 @Controller
 public class PessoaController {
 
 	private final Result result;
 
-	private static final Map<Integer, Pessoa> pessoas = new HashMap<>();
+	private static final Map<Integer, Pessoa> pessoas = new HashMap<Integer, Pessoa>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put(1, new Pessoa());
+		}
+	};
 
 	@Deprecated
 	protected PessoaController() {
@@ -37,30 +41,29 @@ public class PessoaController {
 	/**
 	 * Mostra os recursos. Parametros para filtagem são mandados na URL.
 	 */
-	@Get("pessoas")
+	@Get("pessoa")
 	public void index() {
-		result.use(jsonHypermedia()).from(pessoas, "pessoas").serialize();
+		result.use(Results.json()).from(pessoas, "pessoas").serialize();
 	}
 
-	@Get("pessoas/{id}")
+	@Get("pessoa/{id}")
 	public void show(final Integer id) {
-		final Pessoa pessoa = pessoas.get(id);
-		result.use(jsonHypermedia()).from(pessoa).serialize();
+		result.use(Results.json()).from(new Pessoa()).serialize();
 	}
 
-	@Put("pessoas/{id}")
+	@Put("pessoa/{id}")
 	@Consumes(value = "application/json", options = WithRoot.class)
 	public void update(final Integer id, final Pessoa pessoa) {
 		pessoas.put(id, pessoa);
-		result.use(jsonHypermedia()).from(pessoa).serialize();
+		result.use(Results.json()).from(pessoa).serialize();
 	}
 
-	@Post("pessoas")
+	@Post("pessoa")
 	@Consumes(value = "application/json", options = WithRoot.class)
 	public void create(final Pessoa pessoa) {
 		final Integer id = Long.valueOf(new Date().getTime()).intValue();
 		pessoa.id = id;
 		pessoas.put(id, pessoa);
-		result.use(jsonHypermedia()).from(pessoa).serialize();
+		result.use(Results.json()).from(pessoa).serialize();
 	}
 }
