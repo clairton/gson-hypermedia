@@ -56,7 +56,6 @@ public class GsonHypermediaSerializer extends GsonSerializer implements
 			map.put("links", links);
 			from(map);
 			((GsonBuilderWrapper) builder).setWithoutRoot(Boolean.TRUE);
-			include("links");
 		} else if (root instanceof Hypermediable) {
 			final Class<Hypermediable> type = Hypermediable.class;
 			final Hypermediable model = type.cast(root);
