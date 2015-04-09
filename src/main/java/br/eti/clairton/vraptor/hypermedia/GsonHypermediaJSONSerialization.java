@@ -21,7 +21,6 @@ import br.com.caelum.vraptor.view.ResultException;
  */
 @Specializes
 public class GsonHypermediaJSONSerialization extends GsonJSONSerialization implements HypermediaJsonSerialization {
-
 	private final GsonSerializerBuilder builder;
 	private final ServletResponse response;
 	private final TypeNameExtractor extractor;
