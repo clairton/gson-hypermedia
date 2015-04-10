@@ -4,7 +4,7 @@ Possibilidade de usar Hypermedia em uma aplicação REST construida com o VRapto
 O será necessário implementar um serviço reponsável por definir a navegação, por exemplo:
 ```java
 @ApplicationScoped
-public class HypermediableRoleStub implements HypermediableRole {
+public class HypermediableRuleStub implements HypermediableRule {
 
 	@Override
 	public Set<Link> from(String resource, String operation) {

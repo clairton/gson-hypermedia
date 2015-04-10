@@ -9,25 +9,22 @@ import javax.inject.Inject;
 import br.com.caelum.vraptor.controller.ControllerMethod;
 import br.com.caelum.vraptor.controller.DefaultControllerMethod;
 import br.com.caelum.vraptor.http.MutableRequest;
-import br.com.caelum.vraptor.http.UrlToControllerTranslator;
 
 @Specializes
-public class CurrentMethodProducerOverride extends CurrentMethodProducer {
+public class CurrentResourceOverride extends CurrentResource {
 
 	@Inject
-	public CurrentMethodProducerOverride(UrlToControllerTranslator translator,
-			MutableRequest request) {
-		super(translator, request);
+	public CurrentResourceOverride(MutableRequest request,
+			ControllerMethod method) {
+		super(request, getControllerMethod());
 	}
 
-	@Produces
-	@Current
-	public ControllerMethod getControllerMethod() {
+	private static ControllerMethod getControllerMethod() {
 		try {
-			Method method = PessoaController.class.getMethod("index");
+			final Method method = PessoaController.class.getMethod("index");
 			return DefaultControllerMethod.instanceFor(PessoaController.class,
 					method);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

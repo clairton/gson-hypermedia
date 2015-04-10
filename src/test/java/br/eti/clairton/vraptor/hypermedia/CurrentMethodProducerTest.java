@@ -1,6 +1,6 @@
 package br.eti.clairton.vraptor.hypermedia;
 
-import static br.eti.clairton.vraptor.hypermedia.CurrentMethodProducer.getResource;
+import static br.eti.clairton.vraptor.hypermedia.CurrentResource.getResource;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

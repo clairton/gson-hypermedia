@@ -6,24 +6,17 @@ import javax.inject.Inject;
 
 import br.com.caelum.vraptor.controller.ControllerMethod;
 import br.com.caelum.vraptor.http.MutableRequest;
-import br.com.caelum.vraptor.http.UrlToControllerTranslator;
 
 @Dependent
-public class CurrentMethodProducer {
-	private final UrlToControllerTranslator translator;
+public class CurrentResource {
 	private final MutableRequest request;
+	private final ControllerMethod method;
 
 	@Inject
-	public CurrentMethodProducer(final UrlToControllerTranslator translator,
-			final MutableRequest request) {
-		this.translator = translator;
+	public CurrentResource(final MutableRequest request,
+			final ControllerMethod method) {
 		this.request = request;
-	}
-
-	@Produces
-	@Current
-	public ControllerMethod getControllerMethod() {
-		return translator.translate(request);
+		this.method = method;
 	}
 
 	@Produces
@@ -35,7 +28,7 @@ public class CurrentMethodProducer {
 	@Produces
 	@Operation
 	public String getOperation() {
-		return getOperation(getControllerMethod());
+		return getOperation(method);
 	}
 
 	private String getOperation(ControllerMethod method) {
