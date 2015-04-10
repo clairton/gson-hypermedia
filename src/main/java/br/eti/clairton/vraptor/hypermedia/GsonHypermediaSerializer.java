@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.com.caelum.vraptor.interceptor.TypeNameExtractor;
 import br.com.caelum.vraptor.serialization.gson.GsonBuilderWrapper;
 import br.com.caelum.vraptor.serialization.gson.GsonSerializer;
@@ -26,6 +29,7 @@ public class GsonHypermediaSerializer extends GsonSerializer implements
 	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
+	private final Logger logger = LogManager.getLogger(GsonHypermediaSerializer.class);
 
 	private final GsonSerializerBuilder builder;
 
@@ -56,6 +60,11 @@ public class GsonHypermediaSerializer extends GsonSerializer implements
 			map.put("links", links);
 			from(map);
 			((GsonBuilderWrapper) builder).setWithoutRoot(Boolean.TRUE);
+			try{
+				include("links");
+			}catch(final IllegalArgumentException e){
+				logger.warn("Erro ao adicionar campo links em uma collection", e);
+			}
 		} else if (root instanceof Hypermediable) {
 			final Class<Hypermediable> type = Hypermediable.class;
 			final Hypermediable model = type.cast(root);
