@@ -47,12 +47,12 @@ public class GsonHypermediaSerializer extends GsonSerializer implements
 	@Override
 	public void serialize() {
 		final Set<Link> links;
+		final Object root = builder.getSerializee().getRoot();
 		if (navigator != null) {
-			links = navigator.from(resource, operation);
+			links = navigator.from(root, resource, operation);
 		} else {
 			links = new HashSet<>();
 		}
-		final Object root = builder.getSerializee().getRoot();
 		if (root instanceof Collection<?>) {
 			final Object value = builder.getSerializee().getRoot();
 			final Map<String, Object> map = new HashMap<>();

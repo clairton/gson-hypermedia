@@ -16,9 +16,16 @@ public interface HypermediableRule {
 	 * Mediante o recurso e a operação passadas como parametros deve recuperar
 	 * os links.
 	 * 
+	 * @param target
+	 *            objeto que esta sendo representado na atual URL
+	 * 
+	 * @param resource
+	 *            recurso atual
+	 * 
 	 * @param operation
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	Set<Link> from(final String resource, final String operation);
+	Set<Link> from(final Object target, final String resource,
+			final String operation);
 }

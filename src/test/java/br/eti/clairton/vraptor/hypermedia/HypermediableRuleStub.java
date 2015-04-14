@@ -9,10 +9,9 @@ import javax.enterprise.context.Dependent;
 public class HypermediableRuleStub implements HypermediableRule {
 
 	@Override
-	public Set<Link> from(String resource, String operation) {
+	public Set<Link> from(final Object model, final String resource, final String operation) {
 		final Set<Link> links = new HashSet<>();
-		links.add(new Link("/pessoas/1", "update", "Salvar", "PUT",
-				"application/json"));
+		links.add(new Link("/pessoas/1", "update", "Salvar", "PUT", "application/json"));
 		return links;
 	}
 
