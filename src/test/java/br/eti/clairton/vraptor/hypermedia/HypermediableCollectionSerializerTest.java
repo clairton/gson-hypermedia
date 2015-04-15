@@ -17,7 +17,7 @@ import br.com.caelum.vraptor.serialization.Serializer;
 @RunWith(CdiTestRunner.class)
 public class HypermediableCollectionSerializerTest {
 	private @Inject JSONSerialization serialization;
-	private final String expected = "{\"list\":{\"pessoas\":[{\"id\":1,\"nome\":\"Maria\",\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}],\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}}";
+	private final String expected = "{\"pessoas\":[{\"id\":1,\"nome\":\"Maria\",\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}],\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}";
 
 	@Test
 	public void testSerialize() {
