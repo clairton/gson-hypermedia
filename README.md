@@ -7,7 +7,16 @@ O será necessário implementar um serviço reponsável por definir a navegaçã
 public class HypermediableRuleStub implements HypermediableRule {
 
 	@Override
-	public Set<Link> from(String resource, String operation) {
+	public Set<Link> from(final Collection<Hypermediable> model,
+			final String resource, final String operation) {
+		final Set<Link> links = new HashSet<>();
+		//alguma logica para retornar os links
+		return links;
+	}
+	
+	@Override
+	public Set<Link> from(final Hypermediable model, final String resource,
+			final String operation) {
 		final Set<Link> links = new HashSet<>();
 		//alguma logica para retornar os links
 		return links;

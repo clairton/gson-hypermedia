@@ -23,6 +23,8 @@ import br.com.caelum.vraptor.http.MutableResponse;
 import br.com.caelum.vraptor.http.VRaptorRequest;
 import br.com.caelum.vraptor.http.VRaptorResponse;
 import br.com.caelum.vraptor.util.test.MockHttpServletResponse;
+import br.eti.clairton.inflector.Inflector;
+import br.eti.clairton.inflector.Locale;
 
 @Priority(Interceptor.Priority.LIBRARY_BEFORE + 1)
 @RequestScoped
@@ -62,5 +64,11 @@ public class Produces {
 	@RequestScoped
 	public MutableRequest getRequest() {
 		return new VRaptorRequest(new MockHttpServletRequest());
+	}
+
+	@javax.enterprise.inject.Produces
+	@RequestScoped
+	public Inflector getInflector() {
+		return Inflector.getForLocale(Locale.pt_BR);
 	}
 }

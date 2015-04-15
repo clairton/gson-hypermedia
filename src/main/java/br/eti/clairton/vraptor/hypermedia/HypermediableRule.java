@@ -1,5 +1,6 @@
 package br.eti.clairton.vraptor.hypermedia;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -13,11 +14,11 @@ public interface HypermediableRule {
 
 	/**
 	 * Deve retornar os links possíveis para navegação.<br/>
-	 * Mediante o recurso e a operação passadas como parametros deve recuperar
-	 * os links.
+	 * Mediante o recurso, operação e instancia do objeto passadas como
+	 * parametros deve recuperar os links.
 	 * 
 	 * @param target
-	 *            objeto que esta sendo representado na atual URL
+	 *            objeto que esta sendo retornado na atual requisicao
 	 * 
 	 * @param resource
 	 *            recurso atual
@@ -26,6 +27,24 @@ public interface HypermediableRule {
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	Set<Link> from(final Object target, final String resource,
+	Set<Link> from(final Collection<Hypermediable> target,
+			final String resource, final String operation);
+
+	/**
+	 * Deve retornar os links possíveis para navegação.<br/>
+	 * Mediante o recurso, operação e instancia do objeto passadas como
+	 * parametros deve recuperar os links.
+	 * 
+	 * @param target
+	 *            objeto que esta sendo retornado na atual requisicao
+	 * 
+	 * @param resource
+	 *            recurso atual
+	 * 
+	 * @param operation
+	 *            operação atual
+	 * @return {@link Set} de {@link Link}
+	 */
+	Set<Link> from(final Hypermediable target, final String resource,
 			final String operation);
 }
