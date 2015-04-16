@@ -39,8 +39,7 @@ public class HypermediableSerializer implements JsonSerializer<Hypermediable> {
 	@Inject
 	public HypermediableSerializer(final HypermediableRule navigator,
 			final @Operation String operation, final @Resource String resource) {
-		delegate = new JpaSerializer<Hypermediable>(new Mirror(), logger) {
-		};
+		delegate = new JpaSerializer<Hypermediable>(new Mirror(), logger) {};
 		this.resource = resource;
 		this.navigator = navigator;
 		this.operation = operation;

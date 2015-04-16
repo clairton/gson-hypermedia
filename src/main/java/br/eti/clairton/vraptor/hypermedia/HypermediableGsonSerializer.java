@@ -29,7 +29,7 @@ public class HypermediableGsonSerializer extends GsonSerializer {
 	 * {@inheritDoc}.
 	 */
 	@Override
-	public <T> Serializer from(T object, String alias) {
+	public <T> Serializer from(final T object, final String alias) {
 		super.from(object, alias);
 		if (Collection.class.isInstance(object)) {
 			builder.setWithoutRoot(Boolean.TRUE);
