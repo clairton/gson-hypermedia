@@ -9,9 +9,6 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import net.vidageek.mirror.dsl.Mirror;
-
-import org.apache.logging.log4j.Logger;
-
 import br.eti.clairton.jpa.serializer.JpaSerializer;
 
 import com.google.gson.JsonElement;
@@ -26,7 +23,6 @@ import com.google.gson.JsonSerializer;
 @Dependent
 public class HypermediableSerializer implements JsonSerializer<Hypermediable> {
 	private final JpaSerializer<Hypermediable> delegate;
-	private final Logger logger = getLogger(HypermediableSerializer.class);
 	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
@@ -36,13 +32,21 @@ public class HypermediableSerializer implements JsonSerializer<Hypermediable> {
 		this(null, null, null);
 	}
 
-	@Inject
 	public HypermediableSerializer(final HypermediableRule navigator,
-			final @Operation String operation, final @Resource String resource) {
-		delegate = new JpaSerializer<Hypermediable>(new Mirror(), logger) {};
+			final @Operation String operation, final @Resource String resource,
+			final JpaSerializer<Hypermediable> delegate) {
+		this.delegate = delegate;
 		this.resource = resource;
 		this.navigator = navigator;
 		this.operation = operation;
+	}
+
+	@Inject
+	public HypermediableSerializer(final HypermediableRule navigator,
+			final @Operation String operation, final @Resource String resource) {
+		this(navigator, operation, resource, new JpaSerializer<Hypermediable>(
+				new Mirror(), getLogger(HypermediableSerializer.class)) {
+		});
 	}
 
 	/**
