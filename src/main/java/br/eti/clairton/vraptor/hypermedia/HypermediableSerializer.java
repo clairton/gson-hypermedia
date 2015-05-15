@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.util.Set;
 
 import javax.enterprise.inject.Vetoed;
+import javax.validation.constraints.NotNull;
 
 import net.vidageek.mirror.dsl.Mirror;
 import br.eti.clairton.jpa.serializer.JpaSerializer;
@@ -34,7 +35,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	}
 
 	public HypermediableSerializer(final HypermediableRule navigator,
-			final @Operation String operation, final @Resource String resource,
+			final @Resource String resource, final @Operation String operation,
 			final JpaSerializer<T> delegate) {
 		this.delegate = delegate;
 		this.resource = resource;
@@ -43,10 +44,14 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	}
 
 	public HypermediableSerializer(final HypermediableRule navigator,
-			final String operation, final String resource) {
+			final String resource, final String operation) {
 		this(navigator, operation, resource, new JpaSerializer<T>(new Mirror(),
 				getLogger(JpaSerializer.class)) {
 		});
+	}
+
+	public void addIgnoredField(@NotNull final String field) {
+		delegate.addIgnoredField(field);
 	}
 
 	/**

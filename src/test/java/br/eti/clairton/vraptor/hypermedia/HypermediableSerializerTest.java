@@ -20,12 +20,7 @@ public class HypermediableSerializerTest {
 	public void testSerialize() {
 		final Pessoa object = new Pessoa();
 		final Serializer serializer = serialization.from(object);
-		try {
-			serializer.serialize();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+		serializer.serialize();
 		final String json = Produces.response.toString();
 		assertEquals(expected, json);
 	}
