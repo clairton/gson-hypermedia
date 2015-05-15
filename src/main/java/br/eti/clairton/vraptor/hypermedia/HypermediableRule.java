@@ -10,7 +10,7 @@ import java.util.Set;
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public interface HypermediableRule<T> {
+public interface HypermediableRule {
 
 	/**
 	 * Deve retornar os links possíveis para navegação.<br/>
@@ -27,7 +27,7 @@ public interface HypermediableRule<T> {
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	Set<Link> from(final Collection<T> target, final String resource,
+	<T> Set<Link> from(final Collection<T> target, final String resource,
 			final String operation);
 
 	/**
@@ -45,5 +45,6 @@ public interface HypermediableRule<T> {
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	Set<Link> from(final T target, final String resource, final String operation);
+	<T> Set<Link> from(final T target, final String resource,
+			final String operation);
 }

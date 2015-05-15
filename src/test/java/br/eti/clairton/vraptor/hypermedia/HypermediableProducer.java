@@ -12,14 +12,14 @@ public class HypermediableProducer {
 
 	@Produces
 	public JsonSerializer<Model> getSerializer(
-			HypermediableRule<Model> navigator,
+			HypermediableRule navigator,
 			@Operation String operation, @Resource String resource) {
 		return new ModelSerializer(navigator, operation, resource);
 	}
 
 	@Produces
 	public JsonSerializer<Collection<Model>> getSerializerCollection(
-			HypermediableRule<Model> navigator,
+			HypermediableRule navigator,
 			@Operation String operation, @Resource String resource,
 			Inflector inflector) {
 		return new ModelCollectionSerializer(navigator, operation,

@@ -7,7 +7,7 @@ class ModelSerializer extends
 		JsonSerializer<Model> {
 
 	public ModelSerializer(
-			HypermediableRule<Model> navigator, String operation,
+			HypermediableRule navigator, String operation,
 			String resource) {
 		super(navigator, operation, resource);
 	}

@@ -22,7 +22,7 @@ import com.google.gson.JsonSerializer;
 @Vetoed
 public abstract class HypermediableCollectionSerializer<T> implements
 		JsonSerializer<Collection<T>> {
-	private final HypermediableRule<T> navigator;
+	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
 	private final Inflector inflector;
@@ -33,7 +33,7 @@ public abstract class HypermediableCollectionSerializer<T> implements
 	}
 
 	public HypermediableCollectionSerializer(
-			final HypermediableRule<T> navigator, final String operation,
+			final HypermediableRule navigator, final String operation,
 			final String resource, final Inflector inflector) {
 		this.resource = resource;
 		this.navigator = navigator;

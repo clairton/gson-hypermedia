@@ -23,7 +23,7 @@ import com.google.gson.internal.LinkedTreeMap;
 @Vetoed
 public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	private final JpaSerializer<T> delegate;
-	private final HypermediableRule<T> navigator;
+	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
 	private final Mirror mirror = new Mirror();
@@ -33,7 +33,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		this(null, null, null);
 	}
 
-	public HypermediableSerializer(final HypermediableRule<T> navigator,
+	public HypermediableSerializer(final HypermediableRule navigator,
 			final @Operation String operation, final @Resource String resource,
 			final JpaSerializer<T> delegate) {
 		this.delegate = delegate;
@@ -42,7 +42,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		this.operation = operation;
 	}
 
-	public HypermediableSerializer(final HypermediableRule<T> navigator,
+	public HypermediableSerializer(final HypermediableRule navigator,
 			final String operation, final String resource) {
 		this(navigator, operation, resource, new JpaSerializer<T>(new Mirror(),
 				getLogger(JpaSerializer.class)) {
