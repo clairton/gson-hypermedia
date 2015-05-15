@@ -1,4 +1,4 @@
-# vraptor-hypermedia [![Build Status](https://travis-ci.org/clairton/vraptor-hypermedia.svg?branch=master)](https://travis-ci.org/clairton/vraptor-hypermedia)
+# vraptor-hypermedia[![Build Status](https://drone.io/github.com/clairton/vraptor-hypermedia/status.png)](https://drone.io/github.com/clairton/vraptor-hypermedia/latest)
 Possibilidade de usar Hypermedia em uma aplicação REST construida com o VRaptor.
 
 O será necessário implementar um serviço reponsável por definir a navegação, por exemplo:
