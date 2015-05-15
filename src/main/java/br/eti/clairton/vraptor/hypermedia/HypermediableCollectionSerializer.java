@@ -4,9 +4,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
+import javax.enterprise.inject.Vetoed;
 
 import br.eti.clairton.inflector.Inflector;
 
@@ -17,14 +15,14 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Serialize uma {@link Collection} de {@link Hypermediable}.
+ * Serialize uma {@link Collection} de {@link Model}.
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-@Dependent
-public class HypermediableCollectionSerializer implements
-		JsonSerializer<Collection<Hypermediable>> {
-	private final HypermediableRule navigator;
+@Vetoed
+public abstract class HypermediableCollectionSerializer<T> implements
+		JsonSerializer<Collection<T>> {
+	private final HypermediableRule<T> navigator;
 	private final String operation;
 	private final String resource;
 	private final Inflector inflector;
@@ -34,10 +32,9 @@ public class HypermediableCollectionSerializer implements
 		this(null, null, null, null);
 	}
 
-	@Inject
-	public HypermediableCollectionSerializer(final HypermediableRule navigator,
-			final @Operation String operation, final @Resource String resource,
-			final @Default Inflector inflector) {
+	public HypermediableCollectionSerializer(
+			final HypermediableRule<T> navigator, final String operation,
+			final String resource, final Inflector inflector) {
 		this.resource = resource;
 		this.navigator = navigator;
 		this.inflector = inflector;
@@ -48,14 +45,13 @@ public class HypermediableCollectionSerializer implements
 	 * {@inheritDoc}.
 	 */
 	@Override
-	public JsonElement serialize(final Collection<Hypermediable> src,
-			final Type type, final JsonSerializationContext context) {
+	public JsonElement serialize(final Collection<T> src, final Type type,
+			final JsonSerializationContext context) {
 		final JsonArray collection = new JsonArray();
 		for (final Object h : src) {
 			collection.add(context.serialize(h));
 		}
-		if (!src.isEmpty()
-				&& Hypermediable.class.isInstance(src.iterator().next())) {
+		if (getCollectionType().isInstance(src.iterator().next())) {
 			final JsonObject json = new JsonObject();
 			final Class<?> clazz = src.iterator().next().getClass();
 			final String model = clazz.getSimpleName();
@@ -69,4 +65,6 @@ public class HypermediableCollectionSerializer implements
 			return collection;
 		}
 	}
+
+	protected abstract Class<T> getCollectionType();
 }

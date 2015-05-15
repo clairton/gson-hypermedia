@@ -24,24 +24,58 @@ public class HypermediableRuleStub implements HypermediableRule {
 
 }
 ```
-Para poder serializar uma Entidade com hypermedia, a mesma precisará implementar Hypermediable,
-como no exemplo:
-Obs: Precisa ser pensando em um forma melhor, pois desta, o model conhece o controller!
+Para poder serializar uma Entidade com hypermedia, será necessário criar algumas classes.
+No caso, temos uma entidade chamada Model, e um serializer para coleção, outro para uma instancia unica,
+e mais os producers
 ```java
-public class Pessoa implements Hypermediable {
-	private Integer id;
-	private final String nome;
-	private Set<Link> links = new HashSet<>();
+class ModelSerializer extends
+		HypermediableSerializer<Model> implements
+		JsonSerializer<Model> {
 
-	...
+	public ModelSerializer(
+			HypermediableRule<Model> navigator, String operation,
+			String resource) {
+		super(navigator, operation, resource);
+	}
+
+}
+
+
+class ModelCollectionSerializer extends
+		HypermediableCollectionSerializer<Model> implements
+		JsonSerializer<Collection<Model>> {
+
+	public ModelCollectionSerializer(
+			HypermediableRule<Model> navigator, String operation,
+			String resource, Inflector inflector) {
+		super(navigator, operation, resource, inflector);
+	}
 
 	@Override
-	public Set<Link> getlinks() {
-		return links;
+	protected Class<Model> getCollectionType() {
+		return Model.class;
+	}
+}
+
+//producers
+@Produces
+	public JsonSerializer<Model> getSerializer(
+			HypermediableRule<Model> navigator,
+			@Operation String operation, @Resource String resource) {
+		return new ModelSerializer(navigator, operation, resource);
+	}
+
+	@Produces
+	public JsonSerializer<Collection<Model>> getSerializerCollection(
+			HypermediableRule<Model> navigator,
+			@Operation String operation, @Resource String resource,
+			Inflector inflector) {
+		return new ModelCollectionSerializer(navigator, operation,
+				resource, inflector);
 	}
 }
 ```
-E na hora de serializar no result use o tipo Results.json(), passando o método atual do controller e a sua instância:
+Use o tipo Results.json() na hora de serializer:
 
 ```java
 private @Inject Result result;
@@ -70,6 +104,41 @@ O exemplo acima irá retornar algo parecido com:
 }
 ```
 
+Para coleções:
+
+```java
+result
+	.use(Resuls.json())
+	.from(Arrays.asList(new Pessoa()), "pessoas")
+	.serialize();
+```
+O exemplo acima irá retornar algo parecido com:
+```javascript
+{  
+   "pessoas":[{  
+      "id":1,
+      "nome":"Maria",
+      "links":[  
+         {  
+            "href":"/pessoas/1",
+            "rel":"update",
+            "title":"Salvar",
+            "method":"PUT",
+            "type":"application/json"
+         }
+      ]
+   }],
+  "links":[  
+     {  
+        "href":"/pessoas/new",
+        "rel":"new",
+        "title":"Criar",
+        "method":"GET",
+        "type":"application/json"
+     }
+  ]
+}
+```
 Para usar com o maven, adicione os repositórios:
 ```xml
 <repository>
