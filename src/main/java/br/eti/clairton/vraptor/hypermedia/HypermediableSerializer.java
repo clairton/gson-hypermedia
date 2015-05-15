@@ -58,9 +58,9 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		final Set<Link> links = navigator.from(src, resource, operation);
 		final JsonElement linkElement = context.serialize(links, Set.class);
 		final JsonElement element = delegate.serialize(src, type, context);
+		final Object field = mirror.on(element).get().field("members");
 		@SuppressWarnings("unchecked")
-		final LinkedTreeMap<String, JsonElement> members = (LinkedTreeMap<String, JsonElement>) mirror
-				.on(element).get().field("members");
+		final LinkedTreeMap<String, JsonElement> members = (LinkedTreeMap<String, JsonElement>) field;
 		members.put("links", linkElement);
 		return element;
 	}
