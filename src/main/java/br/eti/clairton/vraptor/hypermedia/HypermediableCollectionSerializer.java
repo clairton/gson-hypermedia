@@ -2,6 +2,7 @@ package br.eti.clairton.vraptor.hypermedia;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.enterprise.inject.Vetoed;
@@ -32,9 +33,9 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		this(null, null, null, null);
 	}
 
-	public HypermediableCollectionSerializer(
-			final HypermediableRule navigator, final String operation,
-			final String resource, final Inflector inflector) {
+	public HypermediableCollectionSerializer(final HypermediableRule navigator,
+			final String operation, final String resource,
+			final Inflector inflector) {
 		this.resource = resource;
 		this.navigator = navigator;
 		this.inflector = inflector;
@@ -51,7 +52,9 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		for (final Object h : src) {
 			collection.add(context.serialize(h));
 		}
-		if (getCollectionType().isInstance(src.iterator().next())) {
+		final Iterator<T> iterator = src.iterator();
+		if (iterator.hasNext()
+				&& getCollectionType().isInstance(iterator.next())) {
 			final JsonObject json = new JsonObject();
 			final Class<?> clazz = src.iterator().next().getClass();
 			final String model = clazz.getSimpleName();
