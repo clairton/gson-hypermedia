@@ -1,6 +1,6 @@
 package br.eti.clairton.vraptor.hypermedia;
 
-public class Link {
+public class Link implements Comparable<Link>{
 	private String href;
 	private String rel;
 	private String title;
@@ -90,5 +90,10 @@ public class Link {
 	public String toString() {
 		return "Link [href=" + href + ", rel=" + rel + ", title=" + title
 				+ ", method=" + method + ", type=" + type + "]";
+	}
+
+	@Override
+	public int compareTo(final Link o) {
+		return rel.compareTo(o.rel);
 	}
 }

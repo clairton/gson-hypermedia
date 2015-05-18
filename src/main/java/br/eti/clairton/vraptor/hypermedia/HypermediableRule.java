@@ -27,8 +27,7 @@ public interface HypermediableRule {
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	<T> Set<Link> from(final Collection<T> target, final String resource,
-			final String operation);
+	<T> Set<Link> from(final Collection<T> target, final String resource, final String operation);
 
 	/**
 	 * Deve retornar os links possíveis para navegação.<br/>
@@ -45,6 +44,5 @@ public interface HypermediableRule {
 	 *            operação atual
 	 * @return {@link Set} de {@link Link}
 	 */
-	<T> Set<Link> from(final T target, final String resource,
-			final String operation);
+	<T> Set<Link> from(final T target, final String resource, final String operation);
 }
