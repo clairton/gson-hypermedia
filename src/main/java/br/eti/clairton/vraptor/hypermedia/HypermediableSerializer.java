@@ -3,6 +3,7 @@ package br.eti.clairton.vraptor.hypermedia;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.Set;
 
 import javax.enterprise.inject.Vetoed;
@@ -14,7 +15,6 @@ import br.eti.clairton.jpa.serializer.JpaSerializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.google.gson.internal.LinkedTreeMap;
 
 /**
  * Deserializa os objetos da de forma a integrar com o modo ActiveSerializer.
@@ -43,8 +43,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		this.operation = operation;
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator,
-			final String resource, final String operation) {
+	public HypermediableSerializer(final HypermediableRule navigator, final String resource, final String operation) {
 		this(navigator, operation, resource, new JpaSerializer<T>(new Mirror(),
 				getLogger(JpaSerializer.class)) {
 		});
@@ -58,14 +57,13 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	 * {@inheritDoc}.
 	 */
 	@Override
-	public JsonElement serialize(final T src, final Type type,
-			final JsonSerializationContext context) {
+	public JsonElement serialize(final T src, final Type type, final JsonSerializationContext context) {
 		final Set<Link> links = navigator.from(src, resource, operation);
 		final JsonElement linkElement = context.serialize(links, Set.class);
 		final JsonElement element = delegate.serialize(src, type, context);
 		final Object field = mirror.on(element).get().field("members");
 		@SuppressWarnings("unchecked")
-		final LinkedTreeMap<String, JsonElement> members = (LinkedTreeMap<String, JsonElement>) field;
+		final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
 		members.put("links", linkElement);
 		return element;
 	}
