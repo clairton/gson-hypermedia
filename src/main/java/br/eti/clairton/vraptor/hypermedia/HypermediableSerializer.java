@@ -43,8 +43,9 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		this.operation = operation;
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator, final String resource, final String operation) {
-		this(navigator, operation, resource, new JpaSerializer<T>(new Mirror(),
+	public HypermediableSerializer(final HypermediableRule navigator,
+			final String resource, final String operation) {
+		this(navigator, resource, operation, new JpaSerializer<T>(new Mirror(),
 				getLogger(JpaSerializer.class)) {
 		});
 	}
@@ -57,7 +58,8 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	 * {@inheritDoc}.
 	 */
 	@Override
-	public JsonElement serialize(final T src, final Type type, final JsonSerializationContext context) {
+	public JsonElement serialize(final T src, final Type type,
+			final JsonSerializationContext context) {
 		final Set<Link> links = navigator.from(src, resource, operation);
 		final JsonElement linkElement = context.serialize(links, Set.class);
 		final JsonElement element = delegate.serialize(src, type, context);
