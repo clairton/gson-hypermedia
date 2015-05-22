@@ -46,27 +46,42 @@ public abstract class HypermediableCollectionSerializer<T> implements
 	 * {@inheritDoc}.
 	 */
 	@Override
-	public JsonElement serialize(final Collection<T> src, final Type type,
+	public JsonElement serialize(final Collection<T> src, final Type type, final JsonSerializationContext context) {
+		final JsonElement element = serialize(src, context);
+		final Iterator<T> iterator = src.iterator();
+		final Class<T> cType = getCollectionType();
+		if (iterator.hasNext() && cType.isInstance(iterator.next())) {
+			return serializeLinks(src, element, context);
+		} else {
+			return element;
+		}
+	}
+
+	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
+		final JsonObject json = new JsonObject();
+		final String tag = tag(src);
+		json.add(tag, element);
+		final Set<Link> links = navigator.from(src, resource, operation);
+		json.add("links", context.serialize(links));
+		return json;
+	}
+
+	protected String tag(final Collection<T> src) {
+		final Iterator<T> iterator = src.iterator();
+		final Class<?> clazz = iterator.next().getClass();
+		final String model = clazz.getSimpleName();
+		final String plural = inflector.pluralize(model);
+		final String tag = inflector.uncapitalize(plural);
+		return tag;
+	}
+
+	protected JsonElement serialize(final Collection<T> src,
 			final JsonSerializationContext context) {
 		final JsonArray collection = new JsonArray();
 		for (final Object h : src) {
 			collection.add(context.serialize(h));
 		}
-		final Iterator<T> iterator = src.iterator();
-		if (iterator.hasNext()
-				&& getCollectionType().isInstance(iterator.next())) {
-			final JsonObject json = new JsonObject();
-			final Class<?> clazz = src.iterator().next().getClass();
-			final String model = clazz.getSimpleName();
-			final String plural = inflector.pluralize(model);
-			final String tag = inflector.uncapitalize(plural);
-			json.add(tag, collection);
-			final Set<Link> links = navigator.from(src, resource, operation);
-			json.add("links", context.serialize(links));
-			return json;
-		} else {
-			return collection;
-		}
+		return collection;
 	}
 
 	protected abstract Class<T> getCollectionType();
