@@ -1,5 +1,5 @@
-# vraptor-hypermedia[![Build Status](https://drone.io/github.com/clairton/vraptor-hypermedia/status.png)](https://drone.io/github.com/clairton/vraptor-hypermedia/latest)
-Possibilidade de usar Hypermedia em uma aplicação REST construida com o VRaptor.
+# gson-hypermedia[![Build Status](https://drone.io/github.com/clairton/gson-hypermedia/status.png)](https://drone.io/github.com/clairton/gson-hypermedia/latest)
+Possibilidade de usar Hypermedia com o GSON.
 
 O será necessário implementar um serviço reponsável por definir a navegação, por exemplo:
 ```java
@@ -78,12 +78,7 @@ class ModelCollectionSerializer extends
 Use o tipo Results.json() na hora de serializer:
 
 ```java
-private @Inject Result result;
-....
-result
-	.use(Resuls.json())
-	.from(new Pessoa())
-	.serialize();
+new Pessoa())
 ```
 O exemplo acima irá retornar algo parecido com:
 ```javascript
@@ -107,10 +102,7 @@ O exemplo acima irá retornar algo parecido com:
 Para coleções:
 
 ```java
-result
-	.use(Resuls.json())
-	.from(Arrays.asList(new Pessoa()), "pessoas")
-	.serialize();
+Arrays.asList(new Pessoa()), "pessoas")
 ```
 O exemplo acima irá retornar algo parecido com:
 ```javascript
@@ -154,7 +146,7 @@ Para usar com o maven, adicione os repositórios:
 ```xml
 <dependency>
     <groupId>br.eti.clairton</groupId>
-    <artifactId>vraptor-hypermedia</artifactId>
+    <artifactId>gson-hypermedia</artifactId>
     <version>0.1.0-SNAPSHOT</version><!--Ou versão mais recente-->
 </dependency>
 ```

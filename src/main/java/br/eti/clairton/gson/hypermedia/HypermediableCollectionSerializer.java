@@ -1,4 +1,4 @@
-package br.eti.clairton.vraptor.hypermedia;
+package br.eti.clairton.gson.hypermedia;
 
 import java.lang.reflect.Type;
 import java.util.Collection;

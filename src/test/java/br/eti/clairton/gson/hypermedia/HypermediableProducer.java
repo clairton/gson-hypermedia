@@ -1,9 +1,12 @@
-package br.eti.clairton.vraptor.hypermedia;
+package br.eti.clairton.gson.hypermedia;
 
 import java.util.Collection;
 
 import javax.enterprise.inject.Produces;
 
+import br.eti.clairton.gson.hypermedia.HypermediableRule;
+import br.eti.clairton.gson.hypermedia.Operation;
+import br.eti.clairton.gson.hypermedia.Resource;
 import br.eti.clairton.inflector.Inflector;
 
 import com.google.gson.JsonSerializer;

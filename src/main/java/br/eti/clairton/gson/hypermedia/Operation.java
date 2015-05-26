@@ -1,4 +1,4 @@
-package br.eti.clairton.vraptor.hypermedia;
+package br.eti.clairton.gson.hypermedia;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;

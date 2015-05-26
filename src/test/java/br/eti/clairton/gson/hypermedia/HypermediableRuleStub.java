@@ -1,10 +1,13 @@
-package br.eti.clairton.vraptor.hypermedia;
+package br.eti.clairton.gson.hypermedia;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.enterprise.context.Dependent;
+
+import br.eti.clairton.gson.hypermedia.HypermediableRule;
+import br.eti.clairton.gson.hypermedia.Link;
 
 @Dependent
 public class HypermediableRuleStub implements HypermediableRule {

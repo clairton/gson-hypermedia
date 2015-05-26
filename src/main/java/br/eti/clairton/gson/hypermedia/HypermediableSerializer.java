@@ -1,4 +1,4 @@
-package br.eti.clairton.vraptor.hypermedia;
+package br.eti.clairton.gson.hypermedia;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
 
@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.enterprise.inject.Vetoed;
-import javax.validation.constraints.NotNull;
 
 import net.vidageek.mirror.dsl.Mirror;
 import br.eti.clairton.jpa.serializer.JpaSerializer;
@@ -50,7 +49,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		});
 	}
 
-	public void addIgnoredField(@NotNull final String field) {
+	public void addIgnoredField(final String field) {
 		delegate.addIgnoredField(field);
 	}
 
