@@ -22,7 +22,7 @@ public class HypermediableCollectionSerializerTest {
 	@Test
 	public void testSerialize() {
 		final List<Pessoa> object = Arrays.asList(new Pessoa());
-		final Serializer serializer = serialization.from(object);
+		final Serializer serializer = serialization.from(object, "spaguete");
 		serializer.serialize();
 		final String json = Produces.response.toString();
 		assertEquals(expected, json);
@@ -30,9 +30,9 @@ public class HypermediableCollectionSerializerTest {
 
 	@Test
 	public void testSerializeEmpty() {
-		final String expected = "{\"s\":[],\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}";
+		final String expected = "{\"tamarindus\":[],\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}";
 		final List<Pessoa> object = Arrays.asList();
-		final Serializer serializer = serialization.from(object);
+		final Serializer serializer = serialization.from(object, "tamarindus");
 		serializer.serialize();
 		final String json = Produces.response.toString();
 		assertEquals(expected, json);
