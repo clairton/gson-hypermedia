@@ -50,7 +50,7 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		final JsonElement element = serialize(src, context);
 		final Iterator<T> iterator = src.iterator();
 		final Class<T> cType = getCollectionType();
-		if (iterator.hasNext() && cType.isInstance(iterator.next())) {
+		if (src.isEmpty() || cType.isInstance(iterator.next())) {
 			return serializeLinks(src, element, context);
 		} else {
 			return element;
@@ -65,13 +65,23 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		json.add("links", context.serialize(links));
 		return json;
 	}
-
-	protected String tag(final Collection<T> src) {
-		final Iterator<T> iterator = src.iterator();
-		final Class<?> clazz = iterator.next().getClass();
-		final String model = clazz.getSimpleName();
+	
+	protected String tag(final String model) {
 		final String plural = inflector.pluralize(model);
 		final String tag = inflector.uncapitalize(plural);
+		return tag;
+	}
+
+	protected String tag(final Collection<T> src) {
+		final String model;
+		if(src.isEmpty()){
+			model = resource;
+		}else{			
+			final Iterator<T> iterator = src.iterator();
+			final Class<?> clazz = iterator.next().getClass();
+			model = clazz.getSimpleName();
+		}
+		final String tag = tag(model);
 		return tag;
 	}
 

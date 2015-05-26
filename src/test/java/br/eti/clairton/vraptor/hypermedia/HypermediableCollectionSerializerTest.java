@@ -28,4 +28,13 @@ public class HypermediableCollectionSerializerTest {
 		assertEquals(expected, json);
 	}
 
+	@Test
+	public void testSerializeEmpty() {
+		final String expected = "{\"s\":[],\"links\":[{\"href\":\"/pessoas/1\",\"rel\":\"update\",\"title\":\"Salvar\",\"method\":\"PUT\",\"type\":\"application/json\"}]}";
+		final List<Pessoa> object = Arrays.asList();
+		final Serializer serializer = serialization.from(object);
+		serializer.serialize();
+		final String json = Produces.response.toString();
+		assertEquals(expected, json);
+	}
 }
