@@ -45,6 +45,10 @@ public class PaginatedCollectionSerializerTest {
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Pessoa.class,
+				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
+						"", "") {
+				});
 		builder.registerTypeAdapter(PaginatedCollection.class, serializer);
 		gson = builder.create();
 	}
@@ -62,6 +66,11 @@ public class PaginatedCollectionSerializerTest {
 		final Map<?, ?> meta = (Map<?, ?>) resultado.get("meta");
 		assertEquals(Double.valueOf("45.0"), meta.get("total"));
 		assertEquals(Double.valueOf("20.0"), meta.get("page"));
+
+		final Map<?, ?> pessoa = (Map<?, ?>) models.get(0);
+		final List<?> linksPessoa = (List<?>) pessoa.get("links");
+		assertEquals(1, linksPessoa.size());
+
 	}
 
 }

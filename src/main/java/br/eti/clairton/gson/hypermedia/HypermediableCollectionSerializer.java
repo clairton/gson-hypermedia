@@ -79,7 +79,8 @@ public abstract class HypermediableCollectionSerializer<T> implements
 			final JsonSerializationContext context) {
 		final JsonArray collection = new JsonArray();
 		for (final Object h : src) {
-			collection.add(context.serialize(h));
+			final JsonElement element = context.serialize(h);
+			collection.add(element);
 		}
 		return collection;
 	}

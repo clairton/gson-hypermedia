@@ -41,6 +41,10 @@ public class HypermediableCollectionSerializerTest {
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Collection.class, serializer);
+		builder.registerTypeAdapter(Pessoa.class,
+				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
+						"", "") {
+				});
 		gson = builder.create();
 	}
 
@@ -53,5 +57,9 @@ public class HypermediableCollectionSerializerTest {
 		assertEquals(1, links.size());
 		final List<?> models = (List<?>) resultado.get("pessoas");
 		assertEquals(1, models.size());
+
+		final Map<?, ?> pessoa = (Map<?, ?>) models.get(0);
+		final List<?> linksPessoa = (List<?>) pessoa.get("links");
+		assertEquals(1, linksPessoa.size());
 	}
 }
