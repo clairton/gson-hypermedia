@@ -1,7 +1,6 @@
 package br.eti.clairton.gson.hypermedia;
 
-
-public class Pessoa implements Model {
+public class Pessoa extends Model {
 	Integer id;
 	final String nome;
 

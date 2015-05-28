@@ -6,5 +6,10 @@ package br.eti.clairton.gson.hypermedia;
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public interface Model {
+public class Model {
+	private String valor = "abc";
+	
+	public String getValor() {
+		return valor;
+	}
 }
