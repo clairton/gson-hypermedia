@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.enterprise.inject.Vetoed;
-
 import br.eti.clairton.inflector.Inflector;
 
 import com.google.gson.JsonArray;
@@ -20,7 +18,6 @@ import com.google.gson.JsonSerializer;
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-@Vetoed
 public abstract class HypermediableCollectionSerializer<T> implements
 		JsonSerializer<Collection<T>> {
 	private final HypermediableRule navigator;

@@ -6,8 +6,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.inject.Vetoed;
-
 import net.vidageek.mirror.dsl.Mirror;
 import br.eti.clairton.jpa.serializer.JpaSerializer;
 
@@ -20,7 +18,6 @@ import com.google.gson.JsonSerializer;
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-@Vetoed
 public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	private final JpaSerializer<T> delegate;
 	private final HypermediableRule navigator;
@@ -34,7 +31,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 	}
 
 	public HypermediableSerializer(final HypermediableRule navigator,
-			final @Resource String resource, final @Operation String operation,
+			final String resource, final String operation,
 			final JpaSerializer<T> delegate) {
 		this.delegate = delegate;
 		this.resource = resource;

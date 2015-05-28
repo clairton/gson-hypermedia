@@ -3,8 +3,6 @@ package br.eti.clairton.gson.hypermedia;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import javax.enterprise.inject.Vetoed;
-
 import br.eti.clairton.repository.Meta;
 import br.eti.clairton.repository.PaginatedCollection;
 
@@ -13,7 +11,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-@Vetoed
 public class PaginatedCollectionSerializer<T, X> implements JsonSerializer<PaginatedCollection<T, X>> {
 	private JsonSerializer<Collection<T>> delegate;
 	
