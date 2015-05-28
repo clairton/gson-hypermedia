@@ -1,8 +1,5 @@
 package br.eti.clairton.gson.hypermedia;
 
-import br.eti.clairton.gson.hypermedia.HypermediableRule;
-import br.eti.clairton.gson.hypermedia.HypermediableSerializer;
-
 import com.google.gson.JsonSerializer;
 
 class ModelSerializer extends

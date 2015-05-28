@@ -3,8 +3,8 @@ package br.eti.clairton.gson.hypermedia;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import br.eti.clairton.repository.Meta;
-import br.eti.clairton.repository.PaginatedCollection;
+import br.eti.clairton.paginated.collection.Meta;
+import br.eti.clairton.paginated.collection.PaginatedCollection;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

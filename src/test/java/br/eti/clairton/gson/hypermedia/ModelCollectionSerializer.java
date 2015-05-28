@@ -2,8 +2,6 @@ package br.eti.clairton.gson.hypermedia;
 
 import java.util.Collection;
 
-import br.eti.clairton.gson.hypermedia.HypermediableCollectionSerializer;
-import br.eti.clairton.gson.hypermedia.HypermediableRule;
 import br.eti.clairton.inflector.Inflector;
 
 import com.google.gson.JsonSerializer;

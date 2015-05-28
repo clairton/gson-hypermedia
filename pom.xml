@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.eti.clairton</groupId>
-			<artifactId>identificator</artifactId>
+			<artifactId>paginated-collection</artifactId>
 			<version>0.1.0</version>
 			<scope>provided</scope>
 		</dependency>
@@ -32,12 +32,6 @@
 			<groupId>net.vidageek</groupId>
 			<artifactId>mirror</artifactId>
 			<version>1.6.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>br.eti.clairton</groupId>
-			<artifactId>repository</artifactId>
-			<version>0.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

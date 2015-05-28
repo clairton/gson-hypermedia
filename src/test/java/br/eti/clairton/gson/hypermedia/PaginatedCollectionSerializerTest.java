@@ -14,9 +14,9 @@ import org.junit.Test;
 
 import br.eti.clairton.inflector.Inflector;
 import br.eti.clairton.inflector.Locale;
-import br.eti.clairton.repository.Meta;
-import br.eti.clairton.repository.PaginatedCollection;
-import br.eti.clairton.repository.PaginatedMetaList;
+import br.eti.clairton.paginated.collection.Meta;
+import br.eti.clairton.paginated.collection.PaginatedCollection;
+import br.eti.clairton.paginated.collection.PaginatedMetaList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
