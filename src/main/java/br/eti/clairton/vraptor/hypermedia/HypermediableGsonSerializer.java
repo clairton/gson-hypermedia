@@ -68,7 +68,7 @@ public class HypermediableGsonSerializer extends GsonSerializer {
 				builder.setExclusionStrategies(new Exclusions(builder.getSerializee()));
 				final Gson gson = builder.create();
 				final String alias = builder.getAlias();
-				final Map<String, Object> map = new HashMap<>();
+				final Map<String, Object> map = new HashMap<String, Object>();
 				map.put(alias, object);
 				final Class<HypermediableRule> t = HypermediableRule.class;
 				final HypermediableRule navigator = current().select(t).get();
