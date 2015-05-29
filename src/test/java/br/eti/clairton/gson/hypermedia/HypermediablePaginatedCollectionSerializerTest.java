@@ -23,7 +23,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
-public class PaginatedCollectionSerializerTest {
+public class HypermediablePaginatedCollectionSerializerTest {
 	private Gson gson;
 
 	private final Inflector inflector = Inflector.getForLocale(Locale.pt_BR);
@@ -39,7 +39,7 @@ public class PaginatedCollectionSerializerTest {
 			return Pessoa.class;
 		}
 	};
-	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new PaginatedCollectionSerializer<Pessoa, Meta>(
+	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(
 			delegate);
 
 	@Before
