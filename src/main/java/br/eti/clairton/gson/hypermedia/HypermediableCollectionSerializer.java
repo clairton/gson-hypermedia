@@ -62,13 +62,18 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		json.add("links", context.serialize(links));
 		return json;
 	}
+	
+	protected String tag(final String model) {
+		final String plural = inflector.pluralize(model);
+		final String tag = inflector.uncapitalize(plural);
+		return tag;
+	}
 
 	protected String tag(final Collection<T> src) {
 		final Iterator<T> iterator = src.iterator();
 		final Class<?> clazz = iterator.next().getClass();
 		final String model = clazz.getSimpleName();
-		final String plural = inflector.pluralize(model);
-		final String tag = inflector.uncapitalize(plural);
+		final String tag = tag(model);
 		return tag;
 	}
 
@@ -76,8 +81,7 @@ public abstract class HypermediableCollectionSerializer<T> implements
 			final JsonSerializationContext context) {
 		final JsonArray collection = new JsonArray();
 		for (final Object h : src) {
-			final JsonElement element = context.serialize(h);
-			collection.add(element);
+			collection.add(context.serialize(h));
 		}
 		return collection;
 	}
