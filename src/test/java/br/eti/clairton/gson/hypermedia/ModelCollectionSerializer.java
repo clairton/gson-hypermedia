@@ -15,4 +15,9 @@ class ModelCollectionSerializer extends
 			String resource, Inflector inflector) {
 		super(navigator, operation, resource, inflector);
 	}
+
+	@Override
+	protected Class<Model> getCollectionType() {
+		return Model.class;
+	}
 }
