@@ -2,7 +2,6 @@ package br.eti.clairton.gson.hypermedia;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class HypermediableSerializerTest {
 	@Test
 	public void testSerialize() {
 		final String json = gson.toJson(new Model(), Model.class);
-		final Map<?, ?> resultado = gson.fromJson(json, HashMap.class);
+		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
 		final List<?> list = (List<?>) resultado.get("links");
 		assertEquals(1, list.size());
 		assertEquals("abc", resultado.get("valor"));

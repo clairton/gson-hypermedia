@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,26 +24,17 @@ public class HypermediableCollectionSerializerTest {
 
 	private final Inflector inflector = Inflector.getForLocale(Locale.pt_BR);
 
-	private Type type = new TypeToken<Collection<Pessoa>>() {
-	}.getType();
+	private final Type type = new TypeToken<Collection<Pessoa>>(){}.getType();
+	
+	private final HypermediableRule navigator = new HypermediableRuleStub();
 
-	private final JsonSerializer<Collection<Pessoa>> serializer = new HypermediableCollectionSerializer<Pessoa>(
-			new HypermediableRuleStub(), "", "", inflector) {
-
-		@Override
-		protected Class<Pessoa> getCollectionType() {
-			return Pessoa.class;
-		}
-	};
+	private final JsonSerializer<Collection<Pessoa>> serializer = new HypermediableCollectionSerializer<Pessoa>(navigator, "", "", inflector) {};
 
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Collection.class, serializer);
-		builder.registerTypeAdapter(Pessoa.class,
-				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
-						"", "") {
-				});
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(navigator,"", "") {});
 		gson = builder.create();
 	}
 
@@ -52,7 +42,7 @@ public class HypermediableCollectionSerializerTest {
 	public void testSerialize() {
 		final List<Pessoa> pessoas = Arrays.asList(new Pessoa(1, "Antônio"));
 		final String json = gson.toJson(pessoas, type);
-		final Map<?, ?> resultado = gson.fromJson(json, HashMap.class);
+		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
 		final List<?> links = (List<?>) resultado.get("links");
 		assertEquals(1, links.size());
 		final List<?> models = (List<?>) resultado.get("pessoas");
@@ -61,5 +51,19 @@ public class HypermediableCollectionSerializerTest {
 		final Map<?, ?> pessoa = (Map<?, ?>) models.get(0);
 		final List<?> linksPessoa = (List<?>) pessoa.get("links");
 		assertEquals(1, linksPessoa.size());
+		
+		final List<?> interesses = (List<?>) pessoa.get("interesses");
+		assertEquals(2, interesses.size());
+	}
+
+	@Test
+	public void testSerializeEmpty() {
+		final List<Pessoa> pessoas = Arrays.asList();
+		final String json = gson.toJson(pessoas, type);
+		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
+		final List<?> links = (List<?>) resultado.get("links");
+		assertEquals(1, links.size());
+		final List<?> models = (List<?>) resultado.get("pessoas");
+		assertEquals(0, models.size());
 	}
 }

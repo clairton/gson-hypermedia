@@ -28,35 +28,28 @@ public class HypermediablePaginatedCollectionSerializerTest {
 
 	private final Inflector inflector = Inflector.getForLocale(Locale.pt_BR);
 
-	private Type type = new TypeToken<PaginatedCollection<Pessoa, Meta>>() {
-	}.getType();
+	private Type type = new TypeToken<PaginatedCollection<Pessoa, Meta>>(){}.getType();
 
-	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(
-			new HypermediableRuleStub(), "", "", inflector) {
+	private final HypermediableRule navigator = new HypermediableRuleStub();
+	
+	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(navigator, "", "", inflector) {};
+	
+	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate);
 
-		@Override
-		protected Class<Pessoa> getCollectionType() {
-			return Pessoa.class;
-		}
-	};
-	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(
-			delegate);
-
+	private final Meta meta = new Meta(45l, 20l);
+	
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Pessoa.class,
-				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
-						"", "") {
-				});
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(navigator, "", "") {});
 		builder.registerTypeAdapter(PaginatedCollection.class, serializer);
 		gson = builder.create();
 	}
 
 	@Test
 	public void testSerialize() {
-		final PaginatedCollection<Pessoa, Meta> pessoas = new PaginatedMetaList<Pessoa>(
-				Arrays.asList(new Pessoa(1, "Antônio")), new Meta(45l, 20l));
+		final List<Pessoa> list = Arrays.asList(new Pessoa(1, "Antônio"));
+		final PaginatedCollection<Pessoa, Meta> pessoas = new PaginatedMetaList<Pessoa>(list, meta);
 		final String json = gson.toJson(pessoas, type);
 		final Map<?, ?> resultado = gson.fromJson(json, HashMap.class);
 		final List<?> links = (List<?>) resultado.get("links");
@@ -70,7 +63,20 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		final Map<?, ?> pessoa = (Map<?, ?>) models.get(0);
 		final List<?> linksPessoa = (List<?>) pessoa.get("links");
 		assertEquals(1, linksPessoa.size());
-
 	}
 
+	@Test
+	public void testSerializeEmpty() {
+		final List<Pessoa> list = Arrays.asList();
+		final PaginatedCollection<Pessoa, Meta> pessoas = new PaginatedMetaList<Pessoa>(list, meta);
+		final String json = gson.toJson(pessoas, type);
+		final Map<?, ?> resultado = gson.fromJson(json, HashMap.class);
+		final List<?> links = (List<?>) resultado.get("links");
+		assertEquals(1, links.size());
+		final List<?> models = (List<?>) resultado.get("pessoas");
+		assertEquals(0, models.size());
+		final Map<?, ?> meta = (Map<?, ?>) resultado.get("meta");
+		assertEquals(Double.valueOf("45.0"), meta.get("total"));
+		assertEquals(Double.valueOf("20.0"), meta.get("page"));
+	}
 }
