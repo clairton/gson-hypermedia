@@ -28,17 +28,14 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 		this(null, null, null);
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator,
-			final String resource, final String operation,
-			final JpaSerializer<T> delegate) {
+	public HypermediableSerializer(final HypermediableRule navigator, final String resource, final String operation, final JpaSerializer<T> delegate) {
 		this.delegate = delegate;
 		this.resource = resource;
 		this.navigator = navigator;
 		this.operation = operation;
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator,
-			final String resource, final String operation) {
+	public HypermediableSerializer(final HypermediableRule navigator, final String resource, final String operation) {
 		this(navigator, resource, operation, new JpaSerializer<T>());
 	}
 

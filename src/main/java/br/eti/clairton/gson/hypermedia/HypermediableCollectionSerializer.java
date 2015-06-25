@@ -15,11 +15,10 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Serialize uma {@link Collection} de {@link Model}.
- * 
+ *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> implements
-		JsonSerializer<Collection<T>> {
+public abstract class HypermediableCollectionSerializer<T> implements JsonSerializer<Collection<T>> {
 	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
@@ -30,9 +29,7 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		this(null, null, null, null);
 	}
 
-	public HypermediableCollectionSerializer(final HypermediableRule navigator,
-			final String operation, final String resource,
-			final Inflector inflector) {
+	public HypermediableCollectionSerializer(final HypermediableRule navigator, final String resource, final String operation, final Inflector inflector) {
 		this.resource = resource;
 		this.navigator = navigator;
 		this.inflector = inflector;
@@ -57,12 +54,15 @@ public abstract class HypermediableCollectionSerializer<T> implements
 	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
 		final JsonObject json = new JsonObject();
 		final String tag = tag(src);
-		json.add(tag, element);
-		final Set<Link> links = navigator.from(src, resource, operation);
-		json.add("links", context.serialize(links));
-		return json;
+		if(tag(resource).equals(tag)){
+			json.add(tag, element);
+			final Set<Link> links = navigator.from(src, resource, operation);
+			json.add("links", context.serialize(links));
+			return json;
+		}
+		return element;
 	}
-	
+
 	protected String tag(final String model) {
 		final String plural = inflector.pluralize(model);
 		final String tag = inflector.uncapitalize(plural);

@@ -31,9 +31,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 	private Type type = new TypeToken<PaginatedCollection<Pessoa, Meta>>() {
 	}.getType();
 
-	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(
-			new HypermediableRuleStub(), "", "", inflector) {
-
+	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), "pessoa", "", inflector) {
 		@Override
 		protected Class<Pessoa> getCollectionType() {
 			return Pessoa.class;
@@ -47,7 +45,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		final GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Pessoa.class,
 				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
-						"", "") {
+						"pessoa", "") {
 				});
 		builder.registerTypeAdapter(PaginatedCollection.class, serializer);
 		gson = builder.create();

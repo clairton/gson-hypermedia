@@ -29,7 +29,7 @@ public class HypermediableCollectionSerializerTest {
 	}.getType();
 
 	private final JsonSerializer<Collection<Pessoa>> serializer = new HypermediableCollectionSerializer<Pessoa>(
-			new HypermediableRuleStub(), "", "", inflector) {
+			new HypermediableRuleStub(), "pessoa", "", inflector) {
 
 		@Override
 		protected Class<Pessoa> getCollectionType() {
@@ -42,8 +42,8 @@ public class HypermediableCollectionSerializerTest {
 		final GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Collection.class, serializer);
 		builder.registerTypeAdapter(Pessoa.class,
-				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
-						"", "") {
+				new HypermediableSerializer<Pessoa>(
+						new HypermediableRuleStub(), "pessoa", "") {
 				});
 		gson = builder.create();
 	}
