@@ -1,7 +1,5 @@
 package br.eti.clairton.gson.hypermedia;
 
-import static org.apache.logging.log4j.LogManager.getLogger;
-
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +13,7 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Deserializa os objetos da de forma a integrar com o modo ActiveSerializer.
- * 
+ *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
@@ -41,9 +39,7 @@ public abstract class HypermediableSerializer<T> implements JsonSerializer<T> {
 
 	public HypermediableSerializer(final HypermediableRule navigator,
 			final String resource, final String operation) {
-		this(navigator, resource, operation, new JpaSerializer<T>(new Mirror(),
-				getLogger(JpaSerializer.class)) {
-		});
+		this(navigator, resource, operation, new JpaSerializer<T>());
 	}
 
 	public void addIgnoredField(final String field) {
