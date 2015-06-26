@@ -51,7 +51,7 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 		}
 	}
 
-	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
+	protected JsonElement serializeLinks(final Collection<T> src, final JsonElement element, final JsonSerializationContext context) {
 		final JsonObject json = new JsonObject();
 		final String tag = tag(src);
 		if(tag(resource).equals(tag)){
