@@ -18,8 +18,7 @@ import com.google.gson.JsonSerializer;
  * 
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> implements
-		JsonSerializer<Collection<T>> {
+public abstract class HypermediableCollectionSerializer<T> implements JsonSerializer<Collection<T>> {
 	private final HypermediableRule navigator;
 	private final String operation;
 	private final String resource;
@@ -30,9 +29,7 @@ public abstract class HypermediableCollectionSerializer<T> implements
 		this(null, null, null, null);
 	}
 
-	public HypermediableCollectionSerializer(final HypermediableRule navigator,
-			final String operation, final String resource,
-			final Inflector inflector) {
+	public HypermediableCollectionSerializer(final HypermediableRule navigator, final String operation, final String resource, final Inflector inflector) {
 		this.resource = resource;
 		this.navigator = navigator;
 		this.inflector = inflector;
