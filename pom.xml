@@ -4,11 +4,9 @@
 	<groupId>br.eti.clairton</groupId>
 	<artifactId>gson-hypermedia</artifactId>
 	<version>0.3.0-SNAPSHOT</version>
-
 	<properties>
 		<deltaspike.version>1.3.0</deltaspike.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>br.eti.clairton</groupId>
