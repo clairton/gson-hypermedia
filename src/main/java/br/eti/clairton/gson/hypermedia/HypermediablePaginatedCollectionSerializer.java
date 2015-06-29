@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class HypermediablePaginatedCollectionSerializer<T, X> implements JsonSerializer<PaginatedCollection<T, X>> {
+public abstract class HypermediablePaginatedCollectionSerializer<T, X> implements JsonSerializer<PaginatedCollection<T, X>> {
 	private JsonSerializer<Collection<T>> delegate;
 
 	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate) {

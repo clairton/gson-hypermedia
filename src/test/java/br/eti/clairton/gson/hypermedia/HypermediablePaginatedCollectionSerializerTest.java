@@ -48,8 +48,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 			return "";
 		}
 	};
-	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(
-			delegate);
+	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate){};
 
 	@Before
 	public void init() {
