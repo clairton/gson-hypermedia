@@ -28,12 +28,21 @@ public class HypermediableCollectionSerializerTest {
 	private Type type = new TypeToken<Collection<Pessoa>>() {
 	}.getType();
 
-	private final JsonSerializer<Collection<Pessoa>> serializer = new HypermediableCollectionSerializer<Pessoa>(
-			new HypermediableRuleStub(), "", "", inflector) {
+	private final JsonSerializer<Collection<Pessoa>> serializer = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), inflector) {
 
 		@Override
 		protected Class<Pessoa> getCollectionType() {
 			return Pessoa.class;
+		}
+
+		@Override
+		protected String getResource() {
+			return "";
+		}
+
+		@Override
+		protected String getOperation() {
+			return "";
 		}
 	};
 

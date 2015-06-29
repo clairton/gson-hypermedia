@@ -15,25 +15,21 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Serialize uma {@link Collection} de {@link Model}.
- * 
+ *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 public abstract class HypermediableCollectionSerializer<T> implements JsonSerializer<Collection<T>> {
 	private final HypermediableRule navigator;
-	private final String operation;
-	private final String resource;
 	private final Inflector inflector;
 
 	@Deprecated
 	protected HypermediableCollectionSerializer() {
-		this(null, null, null, null);
+		this(null, null);
 	}
 
-	public HypermediableCollectionSerializer(final HypermediableRule navigator, final String operation, final String resource, final Inflector inflector) {
-		this.resource = resource;
+	public HypermediableCollectionSerializer(final HypermediableRule navigator, final Inflector inflector) {
 		this.navigator = navigator;
 		this.inflector = inflector;
-		this.operation = operation;
 	}
 
 	/**
@@ -55,11 +51,11 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 		final JsonObject json = new JsonObject();
 		final String tag = tag(src);
 		json.add(tag, element);
-		final Set<Link> links = navigator.from(src, resource, operation);
+		final Set<Link> links = navigator.from(src, getResource(), getOperation());
 		json.add("links", context.serialize(links));
 		return json;
 	}
-	
+
 	protected String tag(final String model) {
 		final String plural = inflector.pluralize(model);
 		final String tag = inflector.uncapitalize(plural);
@@ -84,4 +80,8 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 	}
 
 	protected abstract Class<T> getCollectionType();
+
+	protected abstract String getResource();
+
+	protected abstract String getOperation();
 }

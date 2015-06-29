@@ -31,12 +31,21 @@ public class HypermediablePaginatedCollectionSerializerTest {
 	private Type type = new TypeToken<PaginatedCollection<Pessoa, Meta>>() {
 	}.getType();
 
-	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(
-			new HypermediableRuleStub(), "", "", inflector) {
+	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), inflector) {
 
 		@Override
 		protected Class<Pessoa> getCollectionType() {
 			return Pessoa.class;
+		}
+
+		@Override
+		protected String getResource() {
+			return "";
+		}
+
+		@Override
+		protected String getOperation() {
+			return "";
 		}
 	};
 	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(
