@@ -13,24 +13,20 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Deserializa os objetos da de forma a integrar com o modo ActiveSerializer.
- * 
+ *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 public abstract class HypermediableSerializer<T> extends JpaSerializer<T> implements JsonSerializer<T> {
 	private final HypermediableRule navigator;
-	private final String operation;
-	private final String resource;
 	private final Mirror mirror = new Mirror();
 
 	@Deprecated
 	protected HypermediableSerializer() {
-		this(null, null, null);
+		this(null);
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator, final String resource, final String operation) {
-		this.resource = resource;
+	public HypermediableSerializer(final HypermediableRule navigator) {
 		this.navigator = navigator;
-		this.operation = operation;
 	}
 
 	/**
@@ -38,7 +34,7 @@ public abstract class HypermediableSerializer<T> extends JpaSerializer<T> implem
 	 */
 	@Override
 	public JsonElement serialize(final T src, final Type type, final JsonSerializationContext context) {
-		final Set<Link> links = navigator.from(src, resource, operation);
+		final Set<Link> links = navigator.from(src, getResource(), getOperation());
 		final JsonElement linkElement = context.serialize(links, Set.class);
 		final JsonElement element = super.serialize(src, type, context);
 		final Object field = mirror.on(element).get().field("members");
@@ -47,4 +43,7 @@ public abstract class HypermediableSerializer<T> extends JpaSerializer<T> implem
 		members.put("links", linkElement);
 		return element;
 	}
+
+	protected abstract String getResource();
+	protected abstract String getOperation();
 }

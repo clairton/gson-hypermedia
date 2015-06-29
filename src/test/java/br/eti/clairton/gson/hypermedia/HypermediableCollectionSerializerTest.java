@@ -50,10 +50,17 @@ public class HypermediableCollectionSerializerTest {
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Collection.class, serializer);
-		builder.registerTypeAdapter(Pessoa.class,
-				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
-						"", "") {
-				});
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub()) {
+			@Override
+			protected String getResource() {
+				return "";
+			}
+
+			@Override
+			protected String getOperation() {
+				return "";
+			}
+		});
 		gson = builder.create();
 	}
 

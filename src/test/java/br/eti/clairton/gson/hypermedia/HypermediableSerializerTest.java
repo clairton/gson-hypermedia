@@ -18,10 +18,17 @@ public class HypermediableSerializerTest {
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Model.class,
-				new HypermediableSerializer<Model>(new HypermediableRuleStub(),
-						"", "") {
-				});
+		builder.registerTypeAdapter(Model.class, new HypermediableSerializer<Model>(new HypermediableRuleStub()) {
+			@Override
+			protected String getResource() {
+				return "";
+			}
+
+			@Override
+			protected String getOperation() {
+				return "";
+			}
+		});
 		gson = builder.create();
 	}
 

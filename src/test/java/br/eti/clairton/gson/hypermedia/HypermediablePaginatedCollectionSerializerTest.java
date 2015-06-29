@@ -53,10 +53,17 @@ public class HypermediablePaginatedCollectionSerializerTest {
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Pessoa.class,
-				new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(),
-						"", "") {
-				});
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub()) {
+			@Override
+			protected String getResource() {
+				return "";
+			}
+
+			@Override
+			protected String getOperation() {
+				return "";
+			}
+		});
 		builder.registerTypeAdapter(PaginatedCollection.class, serializer);
 		gson = builder.create();
 	}
