@@ -34,14 +34,21 @@ public abstract class HypermediableSerializer<T> extends JpaSerializer<T> implem
 	 */
 	@Override
 	public JsonElement serialize(final T src, final Type type, final JsonSerializationContext context) {
-		final Set<Link> links = navigator.from(src, getResource(), getOperation());
-		final JsonElement linkElement = context.serialize(links, Set.class);
 		final JsonElement element = super.serialize(src, type, context);
-		final Object field = mirror.on(element).get().field("members");
-		@SuppressWarnings("unchecked")
-		final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
-		members.put("links", linkElement);
+		if(getResource(src).equals(getResource())){
+			final Set<Link> links = navigator.from(src, getResource(), getOperation());
+			final JsonElement linkElement = context.serialize(links, Set.class);
+			final Object field = mirror.on(element).get().field("members");
+			@SuppressWarnings("unchecked")
+			final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
+			members.put("links", linkElement);
+		}
 		return element;
+	}
+
+	protected String getResource(T src){
+		final String name = src.getClass().getSimpleName();
+		return Character.toLowerCase(name.charAt(0)) + name.substring(1);
 	}
 
 	protected abstract String getResource();

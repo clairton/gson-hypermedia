@@ -37,7 +37,7 @@ public class HypermediableCollectionSerializerTest {
 
 		@Override
 		protected String getResource() {
-			return "";
+			return "pessoa";
 		}
 
 		@Override
@@ -53,7 +53,7 @@ public class HypermediableCollectionSerializerTest {
 		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub()) {
 			@Override
 			protected String getResource() {
-				return "";
+				return "pessoa";
 			}
 
 			@Override

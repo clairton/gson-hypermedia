@@ -7,8 +7,7 @@ public class Link implements Comparable<Link>{
 	private String method;
 	private String type;
 
-	public Link(final String href, final String rel, final String title,
-			final String method, final String type) {
+	public Link(final String href, final String rel, final String title, final String method, final String type) {
 		super();
 		this.href = href;
 		this.rel = rel;

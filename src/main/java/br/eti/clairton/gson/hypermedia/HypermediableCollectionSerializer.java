@@ -48,12 +48,16 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 	}
 
 	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
-		final JsonObject json = new JsonObject();
 		final String tag = tag(src);
-		json.add(tag, element);
-		final Set<Link> links = navigator.from(src, getResource(), getOperation());
-		json.add("links", context.serialize(links));
-		return json;
+		if(tag.equals(inflector.pluralize(getResource()))){
+			final JsonObject json = new JsonObject();
+			json.add(tag, element);
+			final Set<Link> links = navigator.from(src, getResource(), getOperation());
+			json.add("links", context.serialize(links));
+			return json;
+		}else{
+			return element;
+		}
 	}
 
 	protected String tag(final String model) {
@@ -70,8 +74,7 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 		return tag;
 	}
 
-	protected JsonElement serialize(final Collection<T> src,
-			final JsonSerializationContext context) {
+	protected JsonElement serialize(final Collection<T> src, final JsonSerializationContext context) {
 		final JsonArray collection = new JsonArray();
 		for (final Object h : src) {
 			collection.add(context.serialize(h));

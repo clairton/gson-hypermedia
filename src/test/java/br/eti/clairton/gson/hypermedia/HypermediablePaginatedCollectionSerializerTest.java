@@ -40,7 +40,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 
 		@Override
 		protected String getResource() {
-			return "";
+			return "pessoa";
 		}
 
 		@Override
@@ -56,7 +56,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub()) {
 			@Override
 			protected String getResource() {
-				return "";
+				return "pessoa";
 			}
 
 			@Override
@@ -70,8 +70,9 @@ public class HypermediablePaginatedCollectionSerializerTest {
 
 	@Test
 	public void testSerialize() {
-		final PaginatedCollection<Pessoa, Meta> pessoas = new PaginatedMetaList<Pessoa>(
-				Arrays.asList(new Pessoa(1, "Antônio")), new Meta(45l, 20l));
+		final Meta page = new Meta(45l, 20l);
+		final List<Pessoa> collection = Arrays.asList(new Pessoa(1, "Antônio"));
+		final PaginatedCollection<Pessoa, Meta> pessoas = new PaginatedMetaList<Pessoa>(collection, page);
 		final String json = gson.toJson(pessoas, type);
 		final Map<?, ?> resultado = gson.fromJson(json, HashMap.class);
 		final List<?> links = (List<?>) resultado.get("links");
