@@ -1,6 +1,7 @@
 package br.eti.clairton.gson.hypermedia;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 			return "";
 		}
 	};
-	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate){};
+	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate, inflector){};
 
 	@Before
 	public void init() {
@@ -86,7 +87,24 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		final Map<?, ?> pessoa = (Map<?, ?>) models.get(0);
 		final List<?> linksPessoa = (List<?>) pessoa.get("links");
 		assertEquals(1, linksPessoa.size());
-
 	}
 
+	@Test
+	public void testWithouLinkSerialize() {
+		final Meta page = new Meta(45l, 20l);
+		final List<Model> collection = Arrays.asList(new Model());
+		final PaginatedCollection<Model, Meta> pessoas = new PaginatedMetaList<Model>(collection, page);
+		final String json = gson.toJson(pessoas, type);
+		final Map<?, ?> resultado = gson.fromJson(json, HashMap.class);
+		assertFalse(resultado.containsKey("links"));
+
+		final List<?> models = (List<?>) resultado.get("modeis");
+		assertEquals(1, models.size());
+		final Map<?, ?> meta = (Map<?, ?>) resultado.get("meta");
+		assertEquals(Double.valueOf("45.0"), meta.get("total"));
+		assertEquals(Double.valueOf("20.0"), meta.get("page"));
+
+		final Map<?, ?> model = (Map<?, ?>) models.get(0);
+		assertFalse(model.containsKey("links"));
+	}
 }

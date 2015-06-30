@@ -18,7 +18,7 @@ import com.google.gson.JsonSerializer;
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> implements JsonSerializer<Collection<T>> {
+public abstract class HypermediableCollectionSerializer<T> extends TagMixin implements JsonSerializer<Collection<T>> {
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
 
@@ -28,6 +28,7 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 	}
 
 	public HypermediableCollectionSerializer(final HypermediableRule navigator, final Inflector inflector) {
+		super(inflector);
 		this.navigator = navigator;
 		this.inflector = inflector;
 	}
@@ -58,20 +59,6 @@ public abstract class HypermediableCollectionSerializer<T> implements JsonSerial
 		}else{
 			return element;
 		}
-	}
-
-	protected String tag(final String model) {
-		final String plural = inflector.pluralize(model);
-		final String tag = inflector.uncapitalize(plural);
-		return tag;
-	}
-
-	protected String tag(final Collection<T> src) {
-		final Iterator<T> iterator = src.iterator();
-		final Class<?> clazz = iterator.next().getClass();
-		final String model = clazz.getSimpleName();
-		final String tag = tag(model);
-		return tag;
 	}
 
 	protected JsonElement serialize(final Collection<T> src, final JsonSerializationContext context) {
