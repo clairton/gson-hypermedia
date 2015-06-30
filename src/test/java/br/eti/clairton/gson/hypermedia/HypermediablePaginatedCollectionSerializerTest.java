@@ -2,7 +2,6 @@ package br.eti.clairton.gson.hypermedia;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -115,10 +114,8 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		final PaginatedCollection<Model, Meta> pessoas = new PaginatedMetaList<Model>(collection, page);
 		final String json = gson.toJson(pessoas, type);
 		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
-		assertTrue(resultado.containsKey("links"));
+		assertFalse(resultado.containsKey("links"));
 		assertFalse(resultado.containsKey("modeis"));
-		final Map<?, ?> meta = (Map<?, ?>) resultado.get("meta");
-		assertEquals(Double.valueOf("45.0"), meta.get("total"));
-		assertEquals(Double.valueOf("20.0"), meta.get("page"));
+		assertFalse(resultado.containsKey("meta"));
 	}
 }

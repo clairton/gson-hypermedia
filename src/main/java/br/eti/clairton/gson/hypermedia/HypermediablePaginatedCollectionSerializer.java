@@ -25,22 +25,22 @@ public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends T
 		final Collection<T> collection = src;
 		final JsonElement json = delegate.serialize(collection, type, context);
 		final JsonObject object;
-		if(JsonObject.class.isInstance(json)){
+		if (JsonObject.class.isInstance(json)) {
 			object = (JsonObject) json;
-		}else{
+		} else {
 			object = new JsonObject();
-			if(!src.isEmpty()){
+			if (!src.isEmpty()) {
 				final String tag = tag(src);
 				object.add(tag, json);
 			}
 		}
-		if(src.isEmpty()){
-			final JsonElement links = delegate.getLinks(src, context);
-			object.add("links", links);
+		if (!src.isEmpty()) {
+			final Meta meta = src.unwrap(Meta.class);
+			final JsonElement element = context.serialize(meta);
+			object.add("meta", element);
+			return object;
+		} else {
+			return json;
 		}
-		final Meta meta = src.unwrap(Meta.class);
-		final JsonElement element = context.serialize(meta);
-		object.add("meta", element);
-		return object;
 	}
 }
