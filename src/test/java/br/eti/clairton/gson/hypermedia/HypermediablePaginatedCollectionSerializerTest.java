@@ -2,10 +2,10 @@ package br.eti.clairton.gson.hypermedia;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 	private Type type = new TypeToken<PaginatedCollection<Pessoa, Meta>>() {
 	}.getType();
 
-	private final JsonSerializer<Collection<Pessoa>> delegate = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), inflector) {
+	private final HypermediableCollectionSerializer<Pessoa> delegate = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), inflector) {
 
 		@Override
 		protected Class<Pessoa> getCollectionType() {
@@ -115,7 +115,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		final PaginatedCollection<Model, Meta> pessoas = new PaginatedMetaList<Model>(collection, page);
 		final String json = gson.toJson(pessoas, type);
 		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
-		assertFalse(resultado.containsKey("links"));
+		assertTrue(resultado.containsKey("links"));
 		assertFalse(resultado.containsKey("modeis"));
 		final Map<?, ?> meta = (Map<?, ?>) resultado.get("meta");
 		assertEquals(Double.valueOf("45.0"), meta.get("total"));

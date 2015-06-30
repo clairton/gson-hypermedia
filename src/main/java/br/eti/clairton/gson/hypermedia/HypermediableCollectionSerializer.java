@@ -48,12 +48,17 @@ public abstract class HypermediableCollectionSerializer<T> extends TagMixin impl
 		}
 	}
 
+	public JsonElement getLinks(final Collection<T> src, final JsonSerializationContext context){
+		final Set<Link> links = navigator.from(src, getResource(), getOperation());
+		return context.serialize(links);
+	}
+
 	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
 		final String tag = tag(src);
 		if(tag.equals(inflector.pluralize(getResource()))){
 			final JsonObject json = new JsonObject();
 			json.add(tag, element);
-			final Set<Link> links = navigator.from(src, getResource(), getOperation());
+			final JsonElement links = getLinks(src, context);
 			json.add("links", context.serialize(links));
 			return json;
 		}else{
