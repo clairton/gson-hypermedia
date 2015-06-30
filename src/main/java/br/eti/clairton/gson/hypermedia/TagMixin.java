@@ -19,8 +19,8 @@ public class TagMixin {
 		return tag;
 	}
 
-	protected String tag(final Collection<?> src) {
-		final Iterator<?> iterator = src.iterator();
+	protected <T>String tag(final Collection<T> src) {
+		final Iterator<T> iterator = src.iterator();
 		final Class<?> clazz = iterator.next().getClass();
 		final String model = clazz.getSimpleName();
 		final String tag = tag(model);

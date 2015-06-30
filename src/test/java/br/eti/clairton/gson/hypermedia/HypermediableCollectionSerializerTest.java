@@ -1,6 +1,7 @@
 package br.eti.clairton.gson.hypermedia;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -77,5 +78,13 @@ public class HypermediableCollectionSerializerTest {
 		final Map<?, ?> pessoa = (Map<?, ?>) models.get(0);
 		final List<?> linksPessoa = (List<?>) pessoa.get("links");
 		assertEquals(1, linksPessoa.size());
+	}
+
+	@Test
+	public void testEmptyCollection() {
+		final List<Model> collection = Arrays.asList();
+		final String json = gson.toJson(collection, type);
+		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
+		assertFalse(resultado.containsKey("links"));
 	}
 }

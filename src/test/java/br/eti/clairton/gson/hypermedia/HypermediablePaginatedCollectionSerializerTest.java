@@ -107,4 +107,18 @@ public class HypermediablePaginatedCollectionSerializerTest {
 		final Map<?, ?> model = (Map<?, ?>) models.get(0);
 		assertFalse(model.containsKey("links"));
 	}
+
+	@Test
+	public void testEmptyCollection() {
+		final Meta page = new Meta(45l, 20l);
+		final List<Model> collection = Arrays.asList();
+		final PaginatedCollection<Model, Meta> pessoas = new PaginatedMetaList<Model>(collection, page);
+		final String json = gson.toJson(pessoas, type);
+		final Map<?, ?> resultado = gson.fromJson(json, Map.class);
+		assertFalse(resultado.containsKey("links"));
+		assertFalse(resultado.containsKey("modeis"));
+		final Map<?, ?> meta = (Map<?, ?>) resultado.get("meta");
+		assertEquals(Double.valueOf("45.0"), meta.get("total"));
+		assertEquals(Double.valueOf("20.0"), meta.get("page"));
+	}
 }

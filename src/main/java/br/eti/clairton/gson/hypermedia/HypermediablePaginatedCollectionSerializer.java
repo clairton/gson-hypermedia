@@ -29,8 +29,10 @@ public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends T
 			object = (JsonObject) json;
 		}else{
 			object = new JsonObject();
-			final String tag = tag(src);
-			object.add(tag, json);
+			if(!src.isEmpty()){
+				final String tag = tag(src);
+				object.add(tag, json);
+			}
 		}
 		final Meta meta = src.unwrap(Meta.class);
 		final JsonElement element = context.serialize(meta);
