@@ -13,9 +13,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends TagMixin implements JsonSerializer<PaginatedCollection<T, X>> {
-	private HypermediableCollectionSerializer<T> delegate;
+	private JsonSerializer<Collection<T>> delegate;
 
-	public HypermediablePaginatedCollectionSerializer(final HypermediableCollectionSerializer<T> delegate, final Inflector inflector) {
+	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate, final Inflector inflector) {
 		super(inflector);
 		this.delegate = delegate;
 	}
