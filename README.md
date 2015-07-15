@@ -25,8 +25,7 @@ public class HypermediableRuleStub implements HypermediableRule {
 }
 ```
 Para poder serializar uma Entidade com hypermedia, será necessário criar algumas classes.
-No caso, temos uma entidade chamada Model, e um serializer para coleção, outro para uma instancia unica,
-e mais os producers
+No caso, temos uma entidade chamada Model, e um serializer para coleção, outro para uma instancia unica.
 ```java
 class ModelSerializer extends
 		HypermediableSerializer<Model> implements
@@ -54,24 +53,6 @@ class ModelCollectionSerializer extends
 	@Override
 	protected Class<Model> getCollectionType() {
 		return Model.class;
-	}
-}
-
-//producers
-@Produces
-	public JsonSerializer<Model> getSerializer(
-			HypermediableRule<Model> navigator,
-			@Operation String operation, @Resource String resource) {
-		return new ModelSerializer(navigator, operation, resource);
-	}
-
-	@Produces
-	public JsonSerializer<Collection<Model>> getSerializerCollection(
-			HypermediableRule<Model> navigator,
-			@Operation String operation, @Resource String resource,
-			Inflector inflector) {
-		return new ModelCollectionSerializer(navigator, operation,
-				resource, inflector);
 	}
 }
 ```
