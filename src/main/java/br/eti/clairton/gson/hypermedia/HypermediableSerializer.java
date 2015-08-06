@@ -1,14 +1,19 @@
 package br.eti.clairton.gson.hypermedia;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import br.eti.clairton.jpa.serializer.JpaSerializer;
+import br.eti.clairton.inflector.Inflector;
+import br.eti.clairton.jpa.serializer.GsonJpaSerializer;
 import net.vidageek.mirror.dsl.Mirror;
 
 /**
@@ -16,17 +21,21 @@ import net.vidageek.mirror.dsl.Mirror;
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableSerializer<T> extends JpaSerializer<T>implements JsonSerializer<T> {
+public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T> {
+	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Mirror mirror = new Mirror();
+	private final Tagable<T> tagable;
 
 	@Deprecated
 	protected HypermediableSerializer() {
-		this(null);
+		this(null, null, null);
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator) {
+	public HypermediableSerializer(final HypermediableRule navigator, EntityManager em, Inflector inflector) {
+		super(em);
 		this.navigator = navigator;
+		tagable = new Tagable<T>(inflector);
 	}
 
 	/**
@@ -44,6 +53,16 @@ public abstract class HypermediableSerializer<T> extends JpaSerializer<T>impleme
 			members.put("links", linkElement);
 		}
 		return element;
+	}
+
+	@Override
+	public String getRootTag(final T src) {
+		return tagable.getRootTag(src);
+	}
+
+	@Override
+	public String getRootTagCollection(final Collection<T> collection) {
+		return tagable.getRootTagCollection(collection);
 	}
 
 	protected abstract String getResource();

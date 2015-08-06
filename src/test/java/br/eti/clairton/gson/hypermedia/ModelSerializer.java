@@ -1,11 +1,16 @@
 package br.eti.clairton.gson.hypermedia;
 
+import javax.persistence.EntityManager;
+
 import com.google.gson.JsonSerializer;
 
-class ModelSerializer extends HypermediableSerializer<Model> implements JsonSerializer<Model> {
+import br.eti.clairton.inflector.Inflector;
 
-	public ModelSerializer(HypermediableRule navigator) {
-		super(navigator);
+class ModelSerializer extends HypermediableSerializer<Model> implements JsonSerializer<Model> {
+	private static final long serialVersionUID = 1L;
+
+	public ModelSerializer(final HypermediableRule navigator, final EntityManager em, final Inflector inflector) {
+		super(navigator, em, inflector);
 	}
 
 

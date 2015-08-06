@@ -19,6 +19,7 @@ import br.eti.clairton.inflector.Inflector;
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements JsonSerializer<Collection<T>> {
+	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
 

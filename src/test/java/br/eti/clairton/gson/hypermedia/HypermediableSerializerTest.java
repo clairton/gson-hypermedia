@@ -12,13 +12,19 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.eti.clairton.inflector.Inflector;
+import br.eti.clairton.inflector.Locale;
+
 public class HypermediableSerializerTest {
 	private Gson gson;
+
+	private final Inflector inflector = Inflector.getForLocale(Locale.pt_BR);
 
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Model.class, new HypermediableSerializer<Model>(new HypermediableRuleStub()) {
+		builder.registerTypeAdapter(Model.class, new HypermediableSerializer<Model>(new HypermediableRuleStub(), null, inflector) {
+			private static final long serialVersionUID = 1L;
 			@Override
 			protected String getResource() {
 				return "model";
@@ -29,7 +35,8 @@ public class HypermediableSerializerTest {
 				return "";
 			}
 		});
-		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Model>(new HypermediableRuleStub()) {
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Model>(new HypermediableRuleStub(), null, inflector) {
+			private static final long serialVersionUID = 1L;
 			@Override
 			protected String getResource() {
 				return "model";

@@ -30,6 +30,7 @@ public class HypermediableCollectionSerializerTest {
 	}.getType();
 
 	private final JsonSerializer<Collection<Pessoa>> serializer = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), inflector) {
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		protected Class<Pessoa> getCollectionType() {
@@ -51,7 +52,8 @@ public class HypermediableCollectionSerializerTest {
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Collection.class, serializer);
-		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub()) {
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(), null, inflector) {
+			private static final long serialVersionUID = 1L;
 			@Override
 			protected String getResource() {
 				return "pessoa";

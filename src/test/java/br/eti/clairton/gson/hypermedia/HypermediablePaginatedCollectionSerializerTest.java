@@ -32,6 +32,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 	}.getType();
 
 	private final HypermediableCollectionSerializer<Pessoa> delegate = new HypermediableCollectionSerializer<Pessoa>(new HypermediableRuleStub(), inflector) {
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		protected Class<Pessoa> getCollectionType() {
@@ -48,12 +49,15 @@ public class HypermediablePaginatedCollectionSerializerTest {
 			return "";
 		}
 	};
-	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate, inflector){};
+	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate, inflector){
+		private static final long serialVersionUID = 1L;
+	};
 
 	@Before
 	public void init() {
 		final GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub()) {
+		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(), null, inflector) {
+			private static final long serialVersionUID = 1L;
 			@Override
 			protected String getResource() {
 				return "pessoa";

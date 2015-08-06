@@ -13,6 +13,7 @@ import br.eti.clairton.paginated.collection.Meta;
 import br.eti.clairton.paginated.collection.PaginatedCollection;
 
 public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>> {
+	private static final long serialVersionUID = 1L;
 	private JsonSerializer<Collection<T>> delegate;
 
 	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate, final Inflector inflector) {
