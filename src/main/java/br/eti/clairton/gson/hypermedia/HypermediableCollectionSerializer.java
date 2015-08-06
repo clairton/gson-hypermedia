@@ -5,20 +5,20 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-import br.eti.clairton.inflector.Inflector;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import br.eti.clairton.inflector.Inflector;
+
 /**
  * Serialize uma {@link Collection} de {@link Model}.
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> extends TagMixin implements JsonSerializer<Collection<T>> {
+public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements JsonSerializer<Collection<T>> {
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
 
@@ -54,7 +54,7 @@ public abstract class HypermediableCollectionSerializer<T> extends TagMixin impl
 	}
 
 	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
-		final String tag = tag(src);
+		final String tag = getRootTagCollection(src);
 		if(tag.equals(inflector.pluralize(getResource()))){
 			final JsonObject json = new JsonObject();
 			json.add(tag, element);
