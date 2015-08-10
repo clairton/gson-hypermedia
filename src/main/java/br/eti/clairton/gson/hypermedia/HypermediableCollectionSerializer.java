@@ -2,7 +2,6 @@ package br.eti.clairton.gson.hypermedia;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 
 import com.google.gson.JsonArray;
@@ -40,21 +39,6 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 	@Override
 	public JsonElement serialize(final Collection<T> src, final Type type, final JsonSerializationContext context) {
 		final JsonElement element = serialize(src, context);
-		final Iterator<T> iterator = src.iterator();
-		final Class<T> cType = getCollectionType();
-		if (iterator.hasNext() && cType.isInstance(iterator.next())) {
-			return serializeLinks(src, element, context);
-		} else {
-			return element;
-		}
-	}
-
-	protected JsonElement getLinks(final Collection<T> src, final JsonSerializationContext context){
-		final Set<Link> links = navigator.from(src, getResource(), getOperation());
-		return context.serialize(links);
-	}
-
-	protected JsonElement serializeLinks(final Collection<T> src, final JsonElement element, final JsonSerializationContext context) {
 		final String tag = getRootTagCollection(src);
 		if(tag.equals(inflector.pluralize(getResource()))){
 			final JsonObject json = new JsonObject();
@@ -65,6 +49,11 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 		}else{
 			return element;
 		}
+	}
+
+	protected JsonElement getLinks(final Collection<T> src, final JsonSerializationContext context){
+		final Set<Link> links = navigator.from(src, getResource(), getOperation());
+		return context.serialize(links);
 	}
 
 	protected JsonElement serialize(final Collection<T> src, final JsonSerializationContext context) {
