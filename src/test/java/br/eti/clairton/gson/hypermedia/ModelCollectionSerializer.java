@@ -14,17 +14,17 @@ class ModelCollectionSerializer extends HypermediableCollectionSerializer<Model>
 	}
 
 	@Override
-	protected Class<Model> getCollectionType() {
+	public Class<Model> getCollectionType() {
 		return Model.class;
 	}
 
 	@Override
-	protected String getResource() {
+	public String getResource() {
 		return "";
 	}
 
 	@Override
-	protected String getOperation() {
+	public String getOperation() {
 		return "";
 	}
 }

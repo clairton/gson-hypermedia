@@ -22,8 +22,7 @@ public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends T
 	}
 
 	@Override
-	public JsonElement serialize(final PaginatedCollection<T, X> src, final Type type,
-			final JsonSerializationContext context) {
+	public JsonElement serialize(final PaginatedCollection<T, X> src, final Type type, final JsonSerializationContext context) {
 		final Collection<T> collection = src;
 		final JsonElement json = delegate.serialize(collection, type, context);
 		final JsonObject object;

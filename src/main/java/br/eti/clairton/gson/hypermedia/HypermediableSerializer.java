@@ -21,7 +21,7 @@ import net.vidageek.mirror.dsl.Mirror;
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T> {
+public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T>, Hypermediable<T> {
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Mirror mirror = new Mirror();
@@ -64,8 +64,4 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	public String getRootTagCollection(final Collection<T> collection) {
 		return tagable.getRootTagCollection(collection);
 	}
-
-	protected abstract String getResource();
-
-	protected abstract String getOperation();
 }

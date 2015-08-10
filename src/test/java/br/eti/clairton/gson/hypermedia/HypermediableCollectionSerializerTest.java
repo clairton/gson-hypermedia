@@ -33,17 +33,17 @@ public class HypermediableCollectionSerializerTest {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		protected Class<Pessoa> getCollectionType() {
+		public Class<Pessoa> getCollectionType() {
 			return Pessoa.class;
 		}
 
 		@Override
-		protected String getResource() {
+		public String getResource() {
 			return "pessoa";
 		}
 
 		@Override
-		protected String getOperation() {
+		public String getOperation() {
 			return "";
 		}
 	};
@@ -55,12 +55,12 @@ public class HypermediableCollectionSerializerTest {
 		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Pessoa>(new HypermediableRuleStub(), null, inflector) {
 			private static final long serialVersionUID = 1L;
 			@Override
-			protected String getResource() {
+			public String getResource() {
 				return "pessoa";
 			}
 
 			@Override
-			protected String getOperation() {
+			public String getOperation() {
 				return "";
 			}
 		});

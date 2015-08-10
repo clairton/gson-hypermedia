@@ -13,14 +13,13 @@ class ModelSerializer extends HypermediableSerializer<Model> implements JsonSeri
 		super(navigator, em, inflector);
 	}
 
-
 	@Override
-	protected String getResource() {
+	public String getResource() {
 		return "";
 	}
 
 	@Override
-	protected String getOperation() {
+	public String getOperation() {
 		return "";
 	}
 }

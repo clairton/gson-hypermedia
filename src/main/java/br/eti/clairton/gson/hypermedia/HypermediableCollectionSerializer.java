@@ -18,7 +18,7 @@ import br.eti.clairton.inflector.Inflector;
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements JsonSerializer<Collection<T>> {
+public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>> {
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
@@ -54,7 +54,7 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 		return context.serialize(links);
 	}
 
-	protected JsonElement serializeLinks(final Collection<T> src, JsonElement element, final JsonSerializationContext context) {
+	protected JsonElement serializeLinks(final Collection<T> src, final JsonElement element, final JsonSerializationContext context) {
 		final String tag = getRootTagCollection(src);
 		if(tag.equals(inflector.pluralize(getResource()))){
 			final JsonObject json = new JsonObject();
@@ -74,10 +74,4 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 		}
 		return collection;
 	}
-
-	protected abstract Class<T> getCollectionType();
-
-	protected abstract String getResource();
-
-	protected abstract String getOperation();
 }
