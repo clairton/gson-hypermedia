@@ -55,7 +55,8 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 		final Set<Link> links = navigator.from(src, getResource(), getOperation());
 		final JsonArray collection = new JsonArray();
 		for (final Link link : links) {
-			collection.add(context.serialize(link));
+			final JsonElement element = context.serialize(link);
+			collection.add(element);
 		}
 		return collection;
 	}
@@ -63,7 +64,8 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 	protected JsonElement serialize(final Collection<T> src, final JsonSerializationContext context) {
 		final JsonArray collection = new JsonArray();
 		for (final Object h : src) {
-			collection.add(context.serialize(h));
+			final JsonElement element = context.serialize(h);
+			collection.add(element);
 		}
 		return collection;
 	}

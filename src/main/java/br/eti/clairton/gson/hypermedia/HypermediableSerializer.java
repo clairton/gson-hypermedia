@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
@@ -45,14 +46,23 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	public JsonElement serialize(final T src, final Type type, final JsonSerializationContext context) {
 		final JsonElement element = super.serialize(src, type, context);
 		if (getRootTag(src).equals(getResource())) {
-			final Set<Link> links = navigator.from(src, getResource(), getOperation());
-			final JsonElement linkElement = context.serialize(links, Set.class);
+			final JsonElement link = getLinks(src, context);
 			final Object field = mirror.on(element).get().field("members");
 			@SuppressWarnings("unchecked")
 			final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
-			members.put("links", linkElement);
+			members.put("links", link);
 		}
 		return element;
+	}	
+
+	protected JsonElement getLinks(final T src, final JsonSerializationContext context){
+		final Set<Link> links = navigator.from(src, getResource(), getOperation());
+		final JsonArray collection = new JsonArray();
+		for (final Link link : links) {
+			final JsonElement element = context.serialize(link);
+			collection.add(element);
+		}
+		return collection;
 	}
 
 	@Override
