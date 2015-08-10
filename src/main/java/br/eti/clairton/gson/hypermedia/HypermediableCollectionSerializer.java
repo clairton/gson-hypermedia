@@ -39,16 +39,25 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 	@Override
 	public JsonElement serialize(final Collection<T> src, final Type type, final JsonSerializationContext context) {
 		final JsonElement element = serialize(src, context);
-		final String tag = getRootTagCollection(src);
-		if(tag.equals(inflector.pluralize(getResource()))){
-			final JsonObject json = new JsonObject();
-			json.add(tag, element);
-			final JsonElement links = getLinks(src, context);
-			json.add("links", links);
-			return json;
+		if(isResource(src)){
+			return serializeWithLinks(element, src, context);
 		}else{
 			return element;
 		}
+	}
+	
+	protected Boolean isResource(final Collection<T> src){
+		final String tag = getRootTagCollection(src);
+		return tag.equals(inflector.pluralize(getResource()));		
+	}
+
+	protected JsonElement serializeWithLinks(final JsonElement element, final Collection<T> src, final JsonSerializationContext context){
+		final String tag = getRootTagCollection(src);
+		final JsonObject json = new JsonObject();
+		json.add(tag, element);
+		final JsonElement links = getLinks(src, context);
+		json.add("links", links);
+		return json;
 	}
 
 	protected JsonElement getLinks(final Collection<T> src, final JsonSerializationContext context){

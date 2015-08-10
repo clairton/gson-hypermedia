@@ -45,16 +45,25 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	@Override
 	public JsonElement serialize(final T src, final Type type, final JsonSerializationContext context) {
 		final JsonElement element = super.serialize(src, type, context);
-		if (getRootTag(src).equals(getResource())) {
-			final JsonElement link = getLinks(src, context);
-			final Object field = mirror.on(element).get().field("members");
-			@SuppressWarnings("unchecked")
-			final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
-			members.put("links", link);
+		if (isResource(src)) {
+			return serializeWithLinks(element, src, context);
 		}
 		return element;
-	}	
+	}
+	
+	protected Boolean isResource(T src){
+		return getRootTag(src).equals(getResource());		
+	}
 
+	protected JsonElement serializeWithLinks(final JsonElement element, final T src, final JsonSerializationContext context){
+		final JsonElement link = getLinks(src, context);
+		final Object field = mirror.on(element).get().field("members");
+		@SuppressWarnings("unchecked")
+		final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
+		members.put("links", link);
+		return element;
+	}
+	
 	protected JsonElement getLinks(final T src, final JsonSerializationContext context){
 		final Set<Link> links = navigator.from(src, getResource(), getOperation());
 		final JsonArray collection = new JsonArray();
