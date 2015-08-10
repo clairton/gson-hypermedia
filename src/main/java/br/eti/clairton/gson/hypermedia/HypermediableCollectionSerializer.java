@@ -44,7 +44,7 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 			final JsonObject json = new JsonObject();
 			json.add(tag, element);
 			final JsonElement links = getLinks(src, context);
-			json.add("links", context.serialize(links));
+			json.add("links", links);
 			return json;
 		}else{
 			return element;
@@ -53,7 +53,11 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 
 	protected JsonElement getLinks(final Collection<T> src, final JsonSerializationContext context){
 		final Set<Link> links = navigator.from(src, getResource(), getOperation());
-		return context.serialize(links);
+		final JsonArray collection = new JsonArray();
+		for (final Link link : links) {
+			collection.add(context.serialize(link));
+		}
+		return collection;
 	}
 
 	protected JsonElement serialize(final Collection<T> src, final JsonSerializationContext context) {
