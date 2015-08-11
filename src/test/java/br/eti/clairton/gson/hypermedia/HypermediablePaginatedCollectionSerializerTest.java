@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 			return "";
 		}
 	};
-	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate){
+	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(){
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -78,6 +79,7 @@ public class HypermediablePaginatedCollectionSerializerTest {
 				return "";
 			}
 		});
+		builder.registerTypeAdapter(Collection.class, delegate);
 		builder.registerTypeAdapter(PaginatedCollection.class, serializer);
 		gson = builder.create();
 	}

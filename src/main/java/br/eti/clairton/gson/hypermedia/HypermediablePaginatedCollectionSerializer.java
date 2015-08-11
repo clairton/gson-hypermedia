@@ -14,16 +14,11 @@ import br.eti.clairton.paginated.collection.PaginatedCollection;
 
 public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>>, Hypermediable<T> {
 	private static final long serialVersionUID = 1L;
-	private final JsonSerializer<Collection<T>> delegate;
-
-	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate) {
-		this.delegate = delegate;
-	}
 
 	@Override
 	public JsonElement serialize(final PaginatedCollection<T, X> src, final Type type, final JsonSerializationContext context) {
 		final Collection<T> collection = src;
-		final JsonElement json = delegate.serialize(collection, type, context);
+		final JsonElement json = context.serialize(collection, Collection.class);
 		final JsonObject object;
 		if (JsonObject.class.isInstance(json)) {
 			object = (JsonObject) json;
