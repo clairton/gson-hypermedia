@@ -18,6 +18,9 @@ public class Tagable<T> extends br.eti.clairton.jpa.serializer.Tagable<T> {
 	
 	@Override
 	public String getRootTag(final T src) {
+		if(src == null){
+			return hypermediable.getResource();
+		}
 		return super.getRootTag(src);
 	}
 	
@@ -26,12 +29,12 @@ public class Tagable<T> extends br.eti.clairton.jpa.serializer.Tagable<T> {
 		try{
 			return super.getRootTagCollection(collection);
 		}catch(final NoSuchElementException e){
-			return hypermediable.getOperation();
+			return hypermediable.getResource();
 		}
 	}
 	
 	@Override
-	protected String pluralize(final String tag){
+	public String pluralize(final String tag){
 		return inflector.pluralize(tag);
 	}
 }
