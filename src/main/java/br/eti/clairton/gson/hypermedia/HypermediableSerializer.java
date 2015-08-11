@@ -36,7 +36,7 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	public HypermediableSerializer(final HypermediableRule navigator, EntityManager em, Inflector inflector) {
 		super(em);
 		this.navigator = navigator;
-		tagable = new Tagable<T>(inflector);
+		tagable = new Tagable<T>(inflector, this);
 	}
 
 	/**

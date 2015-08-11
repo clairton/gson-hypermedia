@@ -12,12 +12,13 @@ import br.eti.clairton.inflector.Inflector;
 import br.eti.clairton.paginated.collection.Meta;
 import br.eti.clairton.paginated.collection.PaginatedCollection;
 
-public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>> {
+public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends br.eti.clairton.jpa.serializer.Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>>, Hypermediable<T> {
 	private static final long serialVersionUID = 1L;
-	private JsonSerializer<Collection<T>> delegate;
+	private final JsonSerializer<Collection<T>> delegate;
+	private final Tagable<T> tagable;
 
 	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate, final Inflector inflector) {
-		super(inflector);
+		tagable = new Tagable<T>(inflector, this);
 		this.delegate = delegate;
 	}
 
@@ -43,5 +44,14 @@ public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends T
 		} else {
 			return json;
 		}
+	}
+	@Override
+	public String getRootTag(final T src) {
+		return tagable.getRootTag(src);
+	}
+
+	@Override
+	public String getRootTagCollection(final Collection<T> collection) {
+		return tagable.getRootTagCollection(collection);
 	}
 }

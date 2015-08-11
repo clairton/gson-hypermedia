@@ -12,16 +12,16 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+
 import br.eti.clairton.inflector.Inflector;
 import br.eti.clairton.inflector.Locale;
 import br.eti.clairton.paginated.collection.Meta;
 import br.eti.clairton.paginated.collection.PaginatedCollection;
 import br.eti.clairton.paginated.collection.PaginatedMetaList;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
 
 public class HypermediablePaginatedCollectionSerializerTest {
 	private Gson gson;
@@ -51,6 +51,16 @@ public class HypermediablePaginatedCollectionSerializerTest {
 	};
 	private final JsonSerializer<PaginatedCollection<Pessoa, Meta>> serializer = new HypermediablePaginatedCollectionSerializer<Pessoa, Meta>(delegate, inflector){
 		private static final long serialVersionUID = 1L;
+
+		@Override
+		public String getResource() {
+			return "pessoa";
+		}
+
+		@Override
+		public String getOperation() {
+			return "";
+		}
 	};
 
 	@Before

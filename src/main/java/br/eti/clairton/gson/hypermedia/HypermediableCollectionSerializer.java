@@ -17,10 +17,11 @@ import br.eti.clairton.inflector.Inflector;
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>> {
+public abstract class HypermediableCollectionSerializer<T> extends br.eti.clairton.jpa.serializer.Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>>, Hypermediable<T> {
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
+	private final Tagable<T> tagable;
 
 	@Deprecated
 	protected HypermediableCollectionSerializer() {
@@ -28,7 +29,7 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 	}
 
 	public HypermediableCollectionSerializer(final HypermediableRule navigator, final Inflector inflector) {
-		super(inflector);
+		this.tagable = new Tagable<T>(inflector, this);
 		this.navigator = navigator;
 		this.inflector = inflector;
 	}
@@ -77,5 +78,15 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 			collection.add(element);
 		}
 		return collection;
+	}
+
+	@Override
+	public String getRootTag(final T src) {
+		return tagable.getRootTag(src);
+	}
+
+	@Override
+	public String getRootTagCollection(final Collection<T> collection) {
+		return tagable.getRootTagCollection(collection);
 	}
 }
