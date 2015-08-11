@@ -11,17 +11,17 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import br.eti.clairton.inflector.Inflector;
+import br.eti.clairton.jpa.serializer.Tagable;
 
 /**
  * Serialize uma {@link Collection} de {@link Model}.
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> extends br.eti.clairton.jpa.serializer.Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>>, Hypermediable<T> {
+public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>>, Hypermediable<T> {
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
-	private final Tagable<T> tagable;
 
 	@Deprecated
 	protected HypermediableCollectionSerializer() {
@@ -29,7 +29,6 @@ public abstract class HypermediableCollectionSerializer<T> extends br.eti.clairt
 	}
 
 	public HypermediableCollectionSerializer(final HypermediableRule navigator, final Inflector inflector) {
-		this.tagable = new Tagable<T>(inflector, this);
 		this.navigator = navigator;
 		this.inflector = inflector;
 	}
@@ -49,7 +48,7 @@ public abstract class HypermediableCollectionSerializer<T> extends br.eti.clairt
 	
 	protected Boolean isResource(final Collection<T> src){
 		final String tag = getRootTagCollection(src);
-		return tag.equals(inflector.pluralize(getResource()));		
+		return !src.isEmpty() && tag.equals(inflector.pluralize(getResource()));		
 	}
 
 	protected JsonElement serializeWithLinks(final JsonElement element, final Collection<T> src, final JsonSerializationContext context){
@@ -78,15 +77,5 @@ public abstract class HypermediableCollectionSerializer<T> extends br.eti.clairt
 			collection.add(element);
 		}
 		return collection;
-	}
-
-	@Override
-	public String getRootTag(final T src) {
-		return tagable.getRootTag(src);
-	}
-
-	@Override
-	public String getRootTagCollection(final Collection<T> collection) {
-		return tagable.getRootTagCollection(collection);
 	}
 }

@@ -8,17 +8,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import br.eti.clairton.inflector.Inflector;
+import br.eti.clairton.jpa.serializer.Tagable;
 import br.eti.clairton.paginated.collection.Meta;
 import br.eti.clairton.paginated.collection.PaginatedCollection;
 
-public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends br.eti.clairton.jpa.serializer.Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>>, Hypermediable<T> {
+public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>>, Hypermediable<T> {
 	private static final long serialVersionUID = 1L;
 	private final JsonSerializer<Collection<T>> delegate;
-	private final Tagable<T> tagable;
 
-	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate, final Inflector inflector) {
-		tagable = new Tagable<T>(inflector, this);
+	public HypermediablePaginatedCollectionSerializer(final JsonSerializer<Collection<T>> delegate) {
 		this.delegate = delegate;
 	}
 
@@ -31,27 +29,12 @@ public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends b
 			object = (JsonObject) json;
 		} else {
 			object = new JsonObject();
-			if (!src.isEmpty()) {
-				final String tag = getRootTagCollection(src);
-				object.add(tag, json);
-			}
+			final String tag = getRootTagCollection(src);
+			object.add(tag, json);
 		}
-		if (!src.isEmpty()) {
-			final Meta meta = src.unwrap(Meta.class);
-			final JsonElement element = context.serialize(meta);
-			object.add("meta", element);
-			return object;
-		} else {
-			return json;
-		}
-	}
-	@Override
-	public String getRootTag(final T src) {
-		return tagable.getRootTag(src);
-	}
-
-	@Override
-	public String getRootTagCollection(final Collection<T> collection) {
-		return tagable.getRootTagCollection(collection);
+		final Meta meta = src.unwrap(Meta.class);
+		final JsonElement element = context.serialize(meta);
+		object.add("meta", element);
+		return object;
 	}
 }

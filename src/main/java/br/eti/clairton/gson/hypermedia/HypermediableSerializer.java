@@ -1,7 +1,6 @@
 package br.eti.clairton.gson.hypermedia;
 
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +25,6 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Mirror mirror = new Mirror();
-	private final Tagable<T> tagable;
 
 	@Deprecated
 	protected HypermediableSerializer() {
@@ -36,7 +34,6 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	public HypermediableSerializer(final HypermediableRule navigator, EntityManager em, Inflector inflector) {
 		super(em);
 		this.navigator = navigator;
-		tagable = new Tagable<T>(inflector, this);
 	}
 
 	/**
@@ -72,15 +69,5 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 			collection.add(element);
 		}
 		return collection;
-	}
-
-	@Override
-	public String getRootTag(final T src) {
-		return tagable.getRootTag(src);
-	}
-
-	@Override
-	public String getRootTagCollection(final Collection<T> collection) {
-		return tagable.getRootTagCollection(collection);
 	}
 }
