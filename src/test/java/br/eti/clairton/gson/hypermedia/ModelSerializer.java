@@ -14,12 +14,12 @@ class ModelSerializer extends HypermediableSerializer<Model> implements JsonSeri
 	}
 
 	@Override
-	public String getResource() {
+	public String getResource(Model src) {
 		return "";
 	}
 
 	@Override
-	public String getOperation() {
+	public String getOperation(Model src) {
 		return "";
 	}
 }

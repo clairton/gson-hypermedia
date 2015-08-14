@@ -2,9 +2,9 @@ package br.eti.clairton.gson.hypermedia;
 
 import java.util.Collection;
 
-import br.eti.clairton.inflector.Inflector;
-
 import com.google.gson.JsonSerializer;
+
+import br.eti.clairton.inflector.Inflector;
 
 class ModelCollectionSerializer extends HypermediableCollectionSerializer<Model> implements JsonSerializer<Collection<Model>> {
 	private static final long serialVersionUID = 1L;
@@ -19,12 +19,12 @@ class ModelCollectionSerializer extends HypermediableCollectionSerializer<Model>
 	}
 
 	@Override
-	public String getResource() {
+	public String getResource(Collection<Model> src) {
 		return "";
 	}
 
 	@Override
-	public String getOperation() {
+	public String getOperation(Collection<Model> src) {
 		return "";
 	}
 }

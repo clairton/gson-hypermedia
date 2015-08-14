@@ -12,7 +12,7 @@ import br.eti.clairton.jpa.serializer.Tagable;
 import br.eti.clairton.paginated.collection.Meta;
 import br.eti.clairton.paginated.collection.PaginatedCollection;
 
-public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>>, Hypermediable<T> {
+public abstract class HypermediablePaginatedCollectionSerializer<T, X> extends Tagable<T> implements JsonSerializer<PaginatedCollection<T, X>>, Hypermediable<PaginatedCollection<T, X>> {
 	private static final long serialVersionUID = 1L;
 
 	@Override

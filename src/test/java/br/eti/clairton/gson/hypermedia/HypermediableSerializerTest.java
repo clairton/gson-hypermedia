@@ -26,24 +26,24 @@ public class HypermediableSerializerTest {
 		builder.registerTypeAdapter(Model.class, new HypermediableSerializer<Model>(new HypermediableRuleStub(), null, inflector) {
 			private static final long serialVersionUID = 1L;
 			@Override
-			public String getResource() {
+			public String getResource(Model src) {
 				return "model";
 			}
 
 			@Override
-			public String getOperation() {
+			public String getOperation(Model src) {
 				return "";
 			}
 		});
 		builder.registerTypeAdapter(Pessoa.class, new HypermediableSerializer<Model>(new HypermediableRuleStub(), null, inflector) {
 			private static final long serialVersionUID = 1L;
 			@Override
-			public String getResource() {
+			public String getResource(Model src) {
 				return "model";
 			}
 
 			@Override
-			public String getOperation() {
+			public String getOperation(Model src) {
 				return "";
 			}
 		});

@@ -18,7 +18,7 @@ import br.eti.clairton.jpa.serializer.Tagable;
  *
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
-public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>>, Hypermediable<T> {
+public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> implements HypermediableCollection<T>, JsonSerializer<Collection<T>> {
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Inflector inflector;
@@ -48,7 +48,7 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 	
 	protected Boolean isResource(final Collection<T> src){
 		final String tag = getRootTagCollection(src);
-		return !src.isEmpty() && tag.equals(inflector.pluralize(getResource()));		
+		return !src.isEmpty() && tag.equals(inflector.pluralize(getResource(src)));		
 	}
 
 	protected JsonElement serializeWithLinks(final JsonElement element, final Collection<T> src, final JsonSerializationContext context){
@@ -61,7 +61,7 @@ public abstract class HypermediableCollectionSerializer<T> extends Tagable<T> im
 	}
 
 	protected JsonElement getLinks(final Collection<T> src, final JsonSerializationContext context){
-		final Set<Link> links = navigator.from(src, getResource(), getOperation());
+		final Set<Link> links = navigator.from(src, getResource(src), getOperation(src));
 		final JsonArray collection = new JsonArray();
 		for (final Link link : links) {
 			final JsonElement element = context.serialize(link);

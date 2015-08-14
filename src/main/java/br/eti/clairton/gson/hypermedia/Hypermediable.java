@@ -2,7 +2,7 @@ package br.eti.clairton.gson.hypermedia;
 
 public interface Hypermediable<T> {
 
-	String getResource();
+	String getResource(T src);
 
-	String getOperation();
+	String getOperation(T src);
 }

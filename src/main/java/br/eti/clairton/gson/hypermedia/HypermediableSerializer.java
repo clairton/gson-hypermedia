@@ -49,7 +49,7 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	}
 	
 	protected Boolean isResource(T src){
-		return getRootTag(src).equals(getResource());		
+		return getRootTag(src).equals(getResource(src));		
 	}
 
 	protected JsonElement serializeWithLinks(final JsonElement element, final T src, final JsonSerializationContext context){
@@ -62,7 +62,7 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 	}
 	
 	protected JsonElement getLinks(final T src, final JsonSerializationContext context){
-		final Set<Link> links = navigator.from(src, getResource(), getOperation());
+		final Set<Link> links = navigator.from(src, getResource(src), getOperation(src));
 		final JsonArray collection = new JsonArray();
 		for (final Link link : links) {
 			final JsonElement element = context.serialize(link);
