@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializer;
 
 import br.eti.clairton.inflector.Inflector;
 import br.eti.clairton.jpa.serializer.GsonJpaSerializer;
+import br.eti.clairton.jpa.serializer.Nodes;
 import net.vidageek.mirror.dsl.Mirror;
 
 /**
@@ -31,8 +32,13 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 		this(null, null, null);
 	}
 
-	public HypermediableSerializer(final HypermediableRule navigator, EntityManager em, Inflector inflector) {
+	public HypermediableSerializer(final HypermediableRule navigator, final EntityManager em, final Inflector inflector) {
 		super(em);
+		this.navigator = navigator;
+	}
+	
+	public HypermediableSerializer(final Nodes nodes, final HypermediableRule navigator, final EntityManager em, final Inflector inflector) {
+		super(nodes, em);
 		this.navigator = navigator;
 	}
 
