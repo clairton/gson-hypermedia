@@ -1,4 +1,4 @@
-# gson-hypermedia[![Build Status](https://drone.io/github.com/clairton/gson-hypermedia/status.png)](https://drone.io/github.com/clairton/gson-hypermedia/latest)
+# gson-hypermedia[![Build Status](https://travis-ci.org/clairton/gson-hypermedia.svg?branch=master)](https://travis-ci.org/clairton/gson-hypermedia)
 Possibilidade de usar Hypermedia com o GSON.
 
 O será necessário implementar um serviço reponsável por definir a navegação, por exemplo:
