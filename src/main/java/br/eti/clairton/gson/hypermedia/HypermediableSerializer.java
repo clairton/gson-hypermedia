@@ -1,8 +1,11 @@
 package br.eti.clairton.gson.hypermedia;
 
+import static java.util.logging.Level.FINE;
+
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 
@@ -23,6 +26,7 @@ import net.vidageek.mirror.dsl.Mirror;
  * @author Clairton Rodrigo Heinzen<clairton.rodrigo@gmail.com>
  */
 public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T>, Hypermediable<T> {
+	private static final Logger logger = Logger.getLogger(HypermediablePaginatedCollectionSerializer.class.getSimpleName());
 	private static final long serialVersionUID = 1L;
 	private final HypermediableRule navigator;
 	private final Mirror mirror = new Mirror();
@@ -64,6 +68,7 @@ public abstract class HypermediableSerializer<T> extends GsonJpaSerializer<T> im
 		@SuppressWarnings("unchecked")
 		final Map<String, JsonElement> members = (Map<String, JsonElement>) field;
 		members.put("links", link);
+		logger.log(FINE, "Add links {}", link);
 		return element;
 	}
 	
